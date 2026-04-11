@@ -1,0 +1,112 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String   @id @default(uuid())
+  name          String
+  email         String   @unique
+  password_hash String
+  created_at    DateTime @default(now())
+
+  players Player[]
+  events  Event[]
+}
+
+model Player {
+  id               String   @id @default(uuid())
+  user_id          String
+  name             String
+  email            String?
+  phone            String?
+  instagram_handle String?
+  notes            String?
+  created_at       DateTime @default(now())
+
+  user          User          @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  event_players EventPlayer[]
+
+  @@index([user_id])
+}
+
+model Event {
+  id           String      @id @default(uuid())
+  user_id      String
+  name         String
+  type         EventType
+  organization String
+  location     String?
+  total_cost   Float
+  start_date   DateTime
+  end_date     DateTime?
+  days_of_week            String?
+  status                  EventStatus   @default(ACTIVE)
+  is_captain              Boolean       @default(true)
+  captain_share           Float         @default(0)
+  personal_amount_owed    Float?
+  personal_amount_paid    Float         @default(0)
+  personal_payment_status PaymentStatus @default(UNPAID)
+  created_at              DateTime      @default(now())
+
+  user          User          @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  event_players EventPlayer[]
+
+  @@index([user_id])
+}
+
+model EventPlayer {
+  id               String        @id @default(uuid())
+  event_id         String
+  player_id        String
+  amount_owed      Float
+  amount_paid      Float         @default(0)
+  payment_status   PaymentStatus @default(UNPAID)
+  is_amount_custom Boolean       @default(false)
+  created_at       DateTime      @default(now())
+
+  event    Event     @relation(fields: [event_id], references: [id], onDelete: Cascade)
+  player   Player    @relation(fields: [player_id], references: [id], onDelete: Cascade)
+  payments Payment[]
+
+  @@unique([event_id, player_id])
+}
+
+model Payment {
+  id              String        @id @default(uuid())
+  event_player_id String
+  amount          Float
+  date            DateTime
+  method          PaymentMethod
+  notes           String?
+  created_at      DateTime      @default(now())
+
+  event_player EventPlayer @relation(fields: [event_player_id], references: [id], onDelete: Cascade)
+}
+
+enum EventType {
+  LEAGUE
+  TOURNAMENT
+}
+
+enum EventStatus {
+  ACTIVE
+  COMPLETED
+  ARCHIVED
+}
+
+enum PaymentStatus {
+  UNPAID
+  PARTIAL
+  PAID
+}
+
+enum PaymentMethod {
+  CASH
+  E_TRANSFER
+  OTHER
+}

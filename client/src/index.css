@@ -1,0 +1,64 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+
+  body {
+    @apply bg-zinc-50 text-zinc-900 antialiased;
+    font-feature-settings: "kern" 1, "liga" 1, "calt" 1;
+  }
+}
+
+@layer components {
+  /* Buttons: black-first palette, not color-first */
+  .btn {
+    @apply inline-flex items-center justify-center gap-1.5 font-medium text-sm rounded-md transition-all
+           focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-900 focus-visible:ring-offset-2
+           disabled:opacity-40 disabled:pointer-events-none select-none;
+  }
+
+  .btn-primary {
+    @apply btn bg-zinc-900 text-white px-4 py-2
+           hover:bg-zinc-700 active:bg-zinc-800;
+  }
+
+  .btn-secondary {
+    @apply btn bg-white text-zinc-700 px-4 py-2
+           border border-zinc-200 hover:bg-zinc-50 hover:border-zinc-300 active:bg-zinc-100;
+  }
+
+  .btn-danger {
+    @apply btn bg-red-600 text-white px-4 py-2
+           hover:bg-red-700 active:bg-red-800;
+  }
+
+  .btn-ghost {
+    @apply btn bg-transparent text-zinc-500 px-3 py-1.5
+           hover:bg-zinc-100 hover:text-zinc-700;
+  }
+
+  /* Inputs: clean, minimal */
+  .input {
+    @apply block w-full px-3 py-2
+           text-sm text-zinc-900 placeholder-zinc-400
+           bg-white border border-zinc-200 rounded-md
+           transition-colors
+           focus:outline-none focus:ring-2 focus:ring-zinc-900 focus:ring-offset-0 focus:border-transparent
+           disabled:bg-zinc-50 disabled:text-zinc-400;
+  }
+
+  .label {
+    @apply block text-xs font-medium text-zinc-600 mb-1.5 uppercase tracking-wide;
+  }
+
+  /* Card: clean edge, barely any shadow */
+  .card {
+    @apply bg-white border border-zinc-200 rounded-lg;
+  }
+}

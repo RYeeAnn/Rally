@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "Event" ADD COLUMN     "captain_share" DOUBLE PRECISION NOT NULL DEFAULT 0;
