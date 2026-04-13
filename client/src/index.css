@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -10,55 +10,63 @@
   }
 
   body {
-    @apply bg-zinc-50 text-zinc-900 antialiased;
+    @apply antialiased;
+    background-color: #f5f3ee;
+    color: #0f0f0e;
+    font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
     font-feature-settings: "kern" 1, "liga" 1, "calt" 1;
   }
 }
 
 @layer components {
-  /* Buttons: black-first palette, not color-first */
+  /* Buttons: editorial, uppercase tracked */
   .btn {
-    @apply inline-flex items-center justify-center gap-1.5 font-medium text-sm rounded-md transition-all
+    @apply inline-flex items-center justify-center gap-1.5 font-semibold text-[11px] rounded
+           tracking-widest uppercase
            focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-900 focus-visible:ring-offset-2
-           disabled:opacity-40 disabled:pointer-events-none select-none;
+           disabled:opacity-40 disabled:pointer-events-none select-none transition-colors;
   }
 
   .btn-primary {
-    @apply btn bg-zinc-900 text-white px-4 py-2
+    @apply btn bg-zinc-900 text-white px-4 py-2.5
            hover:bg-zinc-700 active:bg-zinc-800;
   }
 
   .btn-secondary {
-    @apply btn bg-white text-zinc-700 px-4 py-2
-           border border-zinc-200 hover:bg-zinc-50 hover:border-zinc-300 active:bg-zinc-100;
+    @apply btn bg-white text-zinc-700 px-4 py-2.5
+           border border-[#e2e0db] hover:bg-zinc-50 hover:border-zinc-300 active:bg-zinc-100;
   }
 
   .btn-danger {
-    @apply btn bg-red-600 text-white px-4 py-2
+    @apply btn bg-red-600 text-white px-4 py-2.5
            hover:bg-red-700 active:bg-red-800;
   }
 
+  /* Ghost: no uppercase, used for inline small actions */
   .btn-ghost {
-    @apply btn bg-transparent text-zinc-500 px-3 py-1.5
-           hover:bg-zinc-100 hover:text-zinc-700;
+    @apply inline-flex items-center justify-center gap-1.5 font-medium text-xs rounded
+           bg-transparent text-zinc-500 px-2.5 py-1.5 normal-case tracking-normal
+           hover:bg-zinc-100 hover:text-zinc-700 transition-colors
+           focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-900
+           disabled:opacity-40 disabled:pointer-events-none select-none;
   }
 
-  /* Inputs: clean, minimal */
+  /* Inputs */
   .input {
     @apply block w-full px-3 py-2
            text-sm text-zinc-900 placeholder-zinc-400
-           bg-white border border-zinc-200 rounded-md
+           bg-white border border-[#e2e0db] rounded
            transition-colors
            focus:outline-none focus:ring-2 focus:ring-zinc-900 focus:ring-offset-0 focus:border-transparent
            disabled:bg-zinc-50 disabled:text-zinc-400;
   }
 
   .label {
-    @apply block text-xs font-medium text-zinc-600 mb-1.5 uppercase tracking-wide;
+    @apply block text-[10px] font-semibold text-zinc-500 mb-1.5 uppercase tracking-widest;
   }
 
-  /* Card: clean edge, barely any shadow */
+  /* Card: white on warm bg, flat corners */
   .card {
-    @apply bg-white border border-zinc-200 rounded-lg;
+    @apply bg-white border border-[#e2e0db] rounded;
   }
 }

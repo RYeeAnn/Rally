@@ -40,28 +40,31 @@ export default function EditAmountModal({
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       <div className="absolute inset-0 bg-black/50" onClick={onClose} />
-      <div className="relative bg-white rounded-2xl shadow-xl w-full max-w-sm">
-        <div className="flex items-center justify-between p-6 border-b border-gray-200">
-          <h2 className="text-lg font-semibold text-gray-900">Edit Amount: {eventPlayer.player?.name}</h2>
-          <button onClick={onClose} className="text-gray-400 hover:text-gray-600">
-            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <div className="relative bg-white border border-[#e2e0db] rounded w-full max-w-sm">
+        {/* Header */}
+        <div className="flex items-center justify-between p-6 border-b border-[#e2e0db]">
+          <h2 className="font-display font-semibold text-zinc-900">
+            Edit Amount — {eventPlayer.player?.name}
+          </h2>
+          <button onClick={onClose} className="btn-ghost -mr-2">
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
             </svg>
           </button>
         </div>
         <form onSubmit={handleSubmit} className="p-6 space-y-4">
           {error && (
-            <div className="bg-red-50 border border-red-200 text-red-700 text-sm px-3 py-2 rounded-lg">
+            <div className="bg-red-50 border border-red-100 text-red-700 text-sm px-3 py-2 rounded">
               {error}
             </div>
           )}
-          <p className="text-sm text-gray-500">
+          <p className="text-xs text-zinc-400">
             Setting a custom amount will lock this player's share. Other players' auto-split amounts won't be affected.
           </p>
           <div>
             <label className="label">Amount Owed *</label>
             <div className="relative">
-              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm">$</span>
+              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400 text-sm">$</span>
               <input
                 className="input pl-7"
                 type="number"
@@ -76,7 +79,7 @@ export default function EditAmountModal({
           </div>
           <div className="flex gap-3">
             <button type="submit" className="btn-primary flex-1" disabled={loading}>
-              {loading ? 'Saving...' : 'Save'}
+              {loading ? 'Saving…' : 'Save'}
             </button>
             <button type="button" onClick={onClose} className="btn-secondary">
               Cancel

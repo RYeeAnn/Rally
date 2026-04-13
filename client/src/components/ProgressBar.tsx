@@ -11,14 +11,14 @@ export default function ProgressBar({ collected, total, showLabel = true, label 
   return (
     <div>
       {showLabel && (
-        <div className="flex justify-between text-xs text-zinc-400 mb-1.5">
+        <div className="flex justify-between text-[11px] text-zinc-400 mb-1.5">
           <span>${collected.toFixed(2)} {label}</span>
           <span>{Math.round(pct)}%</span>
         </div>
       )}
-      <div className="w-full bg-zinc-100 rounded-full h-1.5">
+      <div className="w-full bg-[#e2e0db] rounded-full h-1">
         <div
-          className="h-1.5 rounded-full bg-zinc-800 transition-all"
+          className="h-1 rounded-full bg-[#2ba572] transition-all"
           style={{ width: `${pct}%` }}
         />
       </div>

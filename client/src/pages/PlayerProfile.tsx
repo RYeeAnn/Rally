@@ -13,7 +13,6 @@ export default function PlayerProfile() {
   const [editing, setEditing] = useState(false);
   const [deleteConfirm, setDeleteConfirm] = useState(false);
 
-  // Edit form
   const [formName, setFormName] = useState('');
   const [formEmail, setFormEmail] = useState('');
   const [formPhone, setFormPhone] = useState('');
@@ -72,13 +71,13 @@ export default function PlayerProfile() {
   if (loading) {
     return (
       <div className="p-8 flex justify-center">
-        <div className="animate-spin h-8 w-8 border-4 border-indigo-600 border-t-transparent rounded-full" />
+        <div className="animate-spin h-5 w-5 border-2 border-zinc-900 border-t-transparent rounded-full" />
       </div>
     );
   }
 
   if (!player) {
-    return <div className="p-8 text-gray-500">Player not found.</div>;
+    return <div className="p-8 text-zinc-400 text-sm">Player not found.</div>;
   }
 
   const eventPlayers = player.event_players ?? [];
@@ -86,20 +85,20 @@ export default function PlayerProfile() {
   return (
     <div className="p-8 max-w-3xl">
       {/* Back */}
-      <Link to="/roster" className="text-sm text-indigo-600 hover:text-indigo-800 flex items-center gap-1 mb-6">
-        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <Link to="/roster" className="text-xs text-zinc-400 hover:text-zinc-700 flex items-center gap-1 mb-6 uppercase tracking-widest font-semibold">
+        <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
         </svg>
-        Back to Roster
+        Roster
       </Link>
 
-      {/* Header */}
+      {/* Header card */}
       <div className="card p-6 mb-6">
         {editing ? (
           <>
-            <h2 className="font-semibold text-gray-900 mb-4">Edit Player</h2>
+            <p className="text-[10px] uppercase tracking-widest text-zinc-500 font-semibold mb-4">Edit Player</p>
             {formError && (
-              <div className="bg-red-50 border border-red-200 text-red-700 text-sm px-3 py-2 rounded-lg mb-4">
+              <div className="bg-red-50 border border-red-200 text-red-700 text-sm px-3 py-2 rounded mb-4">
                 {formError}
               </div>
             )}
@@ -118,7 +117,7 @@ export default function PlayerProfile() {
                   <input className="input" type="tel" value={formPhone} onChange={(e) => setFormPhone(e.target.value)} />
                 </div>
                 <div>
-                  <label className="label">Instagram Handle</label>
+                  <label className="label">Instagram</label>
                   <input className="input" value={formInstagram} onChange={(e) => setFormInstagram(e.target.value)} placeholder="@handle" />
                 </div>
               </div>
@@ -128,7 +127,7 @@ export default function PlayerProfile() {
               </div>
               <div className="flex gap-3">
                 <button type="submit" className="btn-primary" disabled={formLoading}>
-                  {formLoading ? 'Saving...' : 'Save Changes'}
+                  {formLoading ? 'Saving…' : 'Save Changes'}
                 </button>
                 <button type="button" className="btn-secondary" onClick={() => setEditing(false)}>
                   Cancel
@@ -139,41 +138,40 @@ export default function PlayerProfile() {
         ) : (
           <div className="flex items-start justify-between">
             <div className="flex items-start gap-4">
-              <div className="w-14 h-14 rounded-full bg-indigo-100 flex items-center justify-center">
-                <span className="text-indigo-700 font-bold text-xl">
+              <div className="w-14 h-14 rounded bg-[#0e1a13] flex items-center justify-center flex-shrink-0">
+                <span className="text-[#2ba572] font-display font-bold text-2xl">
                   {player.name.charAt(0).toUpperCase()}
                 </span>
               </div>
               <div>
-                <h1 className="text-xl font-bold text-gray-900">{player.name}</h1>
-                <div className="space-y-1 mt-1">
-                  {player.email && <p className="text-sm text-gray-600">{player.email}</p>}
-                  {player.phone && <p className="text-sm text-gray-600">{player.phone}</p>}
+                <h1 className="font-display text-xl font-bold text-zinc-900">{player.name}</h1>
+                <div className="space-y-0.5 mt-1.5">
+                  {player.email && <p className="text-sm text-zinc-500">{player.email}</p>}
+                  {player.phone && <p className="text-sm text-zinc-500">{player.phone}</p>}
                   {player.instagram_handle && (
-                    <p className="text-sm text-indigo-500">{player.instagram_handle}</p>
+                    <p className="text-sm text-zinc-600 font-medium">{player.instagram_handle}</p>
                   )}
                   {player.notes && (
-                    <p className="text-sm text-gray-400 italic mt-2">{player.notes}</p>
+                    <p className="text-sm text-zinc-400 italic mt-2">{player.notes}</p>
                   )}
                 </div>
               </div>
             </div>
             <div className="flex gap-2">
-              <button onClick={() => setEditing(true)} className="btn-secondary text-xs px-3 py-1.5">
+              <button onClick={() => setEditing(true)} className="btn-secondary">
                 Edit
               </button>
               {deleteConfirm ? (
                 <div className="flex items-center gap-2">
-                  <span className="text-xs text-gray-500">Are you sure?</span>
-                  <button onClick={handleDelete} className="btn-danger text-xs px-3 py-1.5">
-                    Delete
-                  </button>
-                  <button onClick={() => setDeleteConfirm(false)} className="btn-secondary text-xs px-3 py-1.5">
-                    Cancel
-                  </button>
+                  <span className="text-xs text-zinc-400">Sure?</span>
+                  <button onClick={handleDelete} className="btn-danger">Delete</button>
+                  <button onClick={() => setDeleteConfirm(false)} className="btn-secondary">Cancel</button>
                 </div>
               ) : (
-                <button onClick={() => setDeleteConfirm(true)} className="btn-secondary text-xs px-3 py-1.5 text-red-600 border-red-200 hover:bg-red-50">
+                <button
+                  onClick={() => setDeleteConfirm(true)}
+                  className="btn-secondary text-red-500 border-red-100 hover:bg-red-50"
+                >
                   Delete
                 </button>
               )}
@@ -183,50 +181,53 @@ export default function PlayerProfile() {
       </div>
 
       {/* Event History */}
-      <h2 className="text-lg font-semibold text-gray-900 mb-4">
-        Event History ({eventPlayers.length})
-      </h2>
+      <div className="flex items-center justify-between mb-4">
+        <p className="text-[10px] uppercase tracking-widest text-zinc-500 font-semibold">
+          Event History
+        </p>
+        <span className="text-xs text-zinc-400">{eventPlayers.length} events</span>
+      </div>
 
       {eventPlayers.length === 0 ? (
-        <div className="card p-8 text-center text-gray-500 text-sm">
-          This player hasn't been added to any events yet.
+        <div className="card p-8 text-center text-zinc-400 text-sm">
+          Not added to any events yet.
         </div>
       ) : (
-        <div className="space-y-3">
+        <div className="space-y-2">
           {eventPlayers.map((ep) => {
             const payments = ep.payments ?? [];
             const outstanding = Math.max(0, ep.amount_owed - ep.amount_paid);
             return (
               <div key={ep.id} className="card p-5">
-                <div className="flex items-start justify-between mb-2">
+                <div className="flex items-start justify-between mb-3">
                   <div>
                     <Link
                       to={`/events/${ep.event_id}`}
-                      className="font-medium text-gray-900 hover:text-indigo-600 transition-colors"
+                      className="font-display font-semibold text-zinc-900 hover:text-zinc-600 transition-colors text-sm"
                     >
                       {ep.event?.name}
                     </Link>
-                    <p className="text-sm text-gray-500">{ep.event?.organization}</p>
+                    <p className="text-xs text-zinc-400 mt-0.5">{ep.event?.organization}</p>
                   </div>
                   <PaymentStatusBadge status={ep.payment_status} />
                 </div>
 
-                <div className="flex gap-4 text-sm text-gray-600 mb-3">
-                  <span>Owed: <strong>${ep.amount_owed.toFixed(2)}</strong></span>
-                  <span>Paid: <strong className="text-green-600">${ep.amount_paid.toFixed(2)}</strong></span>
+                <div className="flex gap-5 text-xs text-zinc-500 mb-3">
+                  <span>Owed <strong className="text-zinc-800">${ep.amount_owed.toFixed(2)}</strong></span>
+                  <span>Paid <strong className="text-[#2ba572]">${ep.amount_paid.toFixed(2)}</strong></span>
                   {outstanding > 0 && (
-                    <span className="text-red-500">Outstanding: <strong>${outstanding.toFixed(2)}</strong></span>
+                    <span className="text-red-500">Left <strong>${outstanding.toFixed(2)}</strong></span>
                   )}
                 </div>
 
                 {payments.length > 0 && (
-                  <div className="border-t border-gray-100 pt-3">
-                    <p className="text-xs font-medium text-gray-500 mb-2">Payment history</p>
+                  <div className="border-t border-[#e2e0db] pt-3">
+                    <p className="text-[10px] uppercase tracking-widest text-zinc-400 font-semibold mb-2">Payment History</p>
                     <div className="space-y-1.5">
                       {payments.map((p) => (
-                        <div key={p.id} className="flex items-center justify-between text-xs text-gray-600">
+                        <div key={p.id} className="flex items-center justify-between text-xs text-zinc-500">
                           <span>{new Date(p.date).toLocaleDateString()} · {p.method.replace('_', ' ')}</span>
-                          <span className="font-medium text-green-600">+${p.amount.toFixed(2)}</span>
+                          <span className="font-semibold text-[#2ba572]">+${p.amount.toFixed(2)}</span>
                         </div>
                       ))}
                     </div>

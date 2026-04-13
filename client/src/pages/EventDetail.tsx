@@ -11,6 +11,12 @@ import EditAmountModal from '../components/EditAmountModal';
 import AddPlayerModal from '../components/AddPlayerModal';
 import PaymentHistoryModal from '../components/PaymentHistoryModal';
 
+const statusConfig: Record<EventStatus, { label: string; classes: string }> = {
+  ACTIVE: { label: 'Active', classes: 'bg-[#0e1a13] text-[#2ba572]' },
+  COMPLETED: { label: 'Completed', classes: 'bg-zinc-100 text-zinc-600' },
+  ARCHIVED: { label: 'Archived', classes: 'bg-zinc-50 text-zinc-400' },
+};
+
 function NonCaptainEventDetail({
   event,
   onRefresh,
@@ -38,12 +44,6 @@ function NonCaptainEventDetail({
   const paid = event.personal_amount_paid;
   const outstanding = Math.max(0, owed - paid);
   const pct = owed > 0 ? Math.min(100, (paid / owed) * 100) : 0;
-
-  const statusColors: Record<EventStatus, string> = {
-    ACTIVE: 'bg-emerald-50 text-emerald-700',
-    COMPLETED: 'bg-blue-50 text-blue-700',
-    ARCHIVED: 'bg-zinc-100 text-zinc-500',
-  };
 
   async function handleLogPayment(e: FormEvent) {
     e.preventDefault();
@@ -81,97 +81,90 @@ function NonCaptainEventDetail({
 
   return (
     <div className="p-8 max-w-2xl">
-      <Link to="/events" className="text-sm text-zinc-400 hover:text-zinc-700 flex items-center gap-1 mb-6">
-        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.75}>
+      <Link to="/events" className="text-xs text-zinc-400 hover:text-zinc-700 flex items-center gap-1 mb-6 uppercase tracking-widest font-semibold">
+        <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.75}>
           <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
         </svg>
-        Back to Events
+        Events
       </Link>
 
       <div className="card p-6 mb-4">
         <div className="flex items-start justify-between mb-4">
           <div>
             <div className="flex items-center gap-2 mb-1">
-              <h1 className="text-xl font-semibold text-zinc-900">{event.name}</h1>
-              <span className={`text-[11px] font-medium px-2 py-0.5 rounded ${statusColors[event.status]}`}>
-                {event.status}
+              <h1 className="font-display text-xl font-bold text-zinc-900">{event.name}</h1>
+              <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-sm uppercase tracking-wide ${statusConfig[event.status].classes}`}>
+                {statusConfig[event.status].label}
               </span>
             </div>
             <p className="text-zinc-400 text-sm">{event.organization}</p>
           </div>
           <div className="flex items-center gap-2">
-            <span className="text-xs bg-zinc-100 text-zinc-500 px-2 py-0.5 rounded font-medium">Player</span>
-            <Link to={`/events/${event.id}/edit`} className="btn-secondary text-sm">
-              Edit
-            </Link>
+            <span className="text-[10px] uppercase tracking-widest font-semibold bg-zinc-100 text-zinc-500 px-2 py-1 rounded-sm">Player</span>
+            <Link to={`/events/${event.id}/edit`} className="btn-secondary">Edit</Link>
           </div>
         </div>
 
         <div className="grid grid-cols-3 gap-4 text-sm mb-5">
           {event.location && (
             <div>
-              <p className="text-[11px] text-zinc-400 uppercase tracking-wider mb-0.5">Location</p>
-              <p className="text-zinc-700 font-medium text-xs">{event.location}</p>
+              <p className="label">Location</p>
+              <p className="text-zinc-700 text-xs font-medium">{event.location}</p>
             </div>
           )}
           <div>
-            <p className="text-[11px] text-zinc-400 uppercase tracking-wider mb-0.5">Type</p>
-            <p className="text-zinc-700 font-medium text-xs">{event.type === 'LEAGUE' ? 'League' : 'Tournament'}</p>
+            <p className="label">Type</p>
+            <p className="text-zinc-700 text-xs font-medium">{event.type === 'LEAGUE' ? 'League' : 'Tournament'}</p>
           </div>
           {event.days_of_week && (
             <div>
-              <p className="text-[11px] text-zinc-400 uppercase tracking-wider mb-0.5">Days</p>
-              <p className="text-zinc-700 font-medium text-xs">{event.days_of_week}</p>
+              <p className="label">Days</p>
+              <p className="text-zinc-700 text-xs font-medium">{event.days_of_week}</p>
             </div>
           )}
           <div>
-            <p className="text-[11px] text-zinc-400 uppercase tracking-wider mb-0.5">Start</p>
-            <p className="text-zinc-700 font-medium text-xs">
+            <p className="label">Start</p>
+            <p className="text-zinc-700 text-xs font-medium">
               {new Date(event.start_date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
             </p>
           </div>
           {event.end_date && (
             <div>
-              <p className="text-[11px] text-zinc-400 uppercase tracking-wider mb-0.5">End</p>
-              <p className="text-zinc-700 font-medium text-xs">
+              <p className="label">End</p>
+              <p className="text-zinc-700 text-xs font-medium">
                 {new Date(event.end_date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
               </p>
             </div>
           )}
         </div>
 
-        <div className="bg-zinc-50 rounded-lg p-4 border border-zinc-100">
+        <div className="bg-[#f5f3ee] rounded p-4 border border-[#e2e0db]">
           <div className="flex items-center justify-between mb-3">
-            <span className="text-sm font-medium text-zinc-700">Your payment</span>
+            <span className="text-xs font-medium text-zinc-600">Your payment</span>
             <PaymentStatusBadge status={event.personal_payment_status} />
           </div>
 
           <div className="flex items-baseline gap-1 mb-3">
-            <span className="text-2xl font-semibold text-zinc-900">${paid.toFixed(2)}</span>
+            <span className="font-display text-2xl font-bold text-zinc-900">${paid.toFixed(2)}</span>
             <span className="text-zinc-400 text-sm">/ ${owed.toFixed(2)}</span>
           </div>
 
-          <div className="w-full bg-zinc-200 rounded-full h-1.5 mb-3">
-            <div
-              className="h-1.5 rounded-full bg-zinc-800 transition-all"
-              style={{ width: `${pct}%` }}
-            />
-          </div>
+          <ProgressBar collected={paid} total={owed} showLabel={false} />
 
           {outstanding > 0 && (
-            <p className="text-xs text-red-500 mb-3">${outstanding.toFixed(2)} still to pay</p>
+            <p className="text-xs text-red-500 mt-2 mb-3">${outstanding.toFixed(2)} still to pay</p>
           )}
 
           {outstanding > 0 && !showPaymentForm && (
-            <div className="flex gap-2">
-              <button onClick={handleMarkPaid} className="btn-primary text-sm">
-                Mark as fully paid
+            <div className="flex gap-2 mt-3">
+              <button onClick={handleMarkPaid} className="btn-primary">
+                Mark fully paid
               </button>
               <button
                 onClick={() => { setPayMode('add'); setPayAmount(''); setShowPaymentForm(true); }}
-                className="btn-secondary text-sm"
+                className="btn-secondary"
               >
-                Log partial payment
+                Log partial
               </button>
             </div>
           )}
@@ -186,7 +179,7 @@ function NonCaptainEventDetail({
                   {payMode === 'correct' ? 'Correct total paid' : 'Amount paid now'}
                 </label>
                 {payMode === 'correct' && (
-                  <p className="text-xs text-zinc-400 mb-1.5">Set your actual total paid (replaces the current value)</p>
+                  <p className="text-xs text-zinc-400 mb-1.5">Replaces the current total paid value</p>
                 )}
                 <div className="relative">
                   <span className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400 text-sm">$</span>
@@ -204,10 +197,10 @@ function NonCaptainEventDetail({
                 </div>
               </div>
               <div className="flex gap-2">
-                <button type="submit" className="btn-primary text-sm" disabled={saving}>
-                  {saving ? 'Saving...' : 'Save'}
+                <button type="submit" className="btn-primary" disabled={saving}>
+                  {saving ? 'Saving…' : 'Save'}
                 </button>
-                <button type="button" className="btn-secondary text-sm" onClick={() => setShowPaymentForm(false)}>
+                <button type="button" className="btn-secondary" onClick={() => setShowPaymentForm(false)}>
                   Cancel
                 </button>
               </div>
@@ -215,17 +208,14 @@ function NonCaptainEventDetail({
           )}
 
           {outstanding <= 0 && paid > 0 && !showPaymentForm && (
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2 text-emerald-600">
+            <div className="flex items-center justify-between mt-3">
+              <div className="flex items-center gap-2 text-[#2ba572]">
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                 </svg>
                 <span className="text-sm font-medium">Paid in full</span>
               </div>
-              <button
-                onClick={handleCorrect}
-                className="text-xs text-zinc-400 hover:text-zinc-600"
-              >
+              <button onClick={handleCorrect} className="text-xs text-zinc-400 hover:text-zinc-600">
                 Correct amount
               </button>
             </div>
@@ -233,34 +223,34 @@ function NonCaptainEventDetail({
         </div>
 
         <div className="flex items-center gap-2 mt-4">
-          <span className="text-xs text-zinc-400 mr-1">Status:</span>
+          <span className="text-[10px] uppercase tracking-widest text-zinc-400 font-semibold mr-1">Status</span>
           {(['ACTIVE', 'COMPLETED', 'ARCHIVED'] as EventStatus[]).map((s) => (
             <button
               key={s}
               onClick={() => onStatusChange(s)}
               disabled={event.status === s || statusChanging}
-              className={`text-xs px-2.5 py-1 rounded border transition-colors ${
+              className={`text-[10px] px-2.5 py-1 rounded-sm border transition-colors uppercase tracking-wide font-semibold ${
                 event.status === s
-                  ? `${statusColors[s]} border-transparent font-medium`
-                  : 'border-zinc-200 text-zinc-400 hover:border-zinc-400'
+                  ? `${statusConfig[s].classes} border-transparent`
+                  : 'border-[#e2e0db] text-zinc-400 hover:border-zinc-400'
               }`}
             >
-              {s.charAt(0) + s.slice(1).toLowerCase()}
+              {statusConfig[s].label}
             </button>
           ))}
         </div>
       </div>
 
       <div className="card p-5">
-        <h3 className="text-xs font-semibold text-zinc-500 uppercase tracking-wider mb-3">Danger Zone</h3>
+        <p className="text-[10px] uppercase tracking-widest text-zinc-400 font-semibold mb-3">Danger Zone</p>
         {deleteConfirm ? (
           <div className="flex items-center gap-3">
             <span className="text-xs text-zinc-500">Permanently delete this event?</span>
-            <button onClick={onDelete} className="btn-danger text-sm">Delete</button>
-            <button onClick={() => setDeleteConfirm(false)} className="btn-secondary text-sm">Cancel</button>
+            <button onClick={onDelete} className="btn-danger">Delete</button>
+            <button onClick={() => setDeleteConfirm(false)} className="btn-secondary">Cancel</button>
           </div>
         ) : (
-          <button onClick={() => setDeleteConfirm(true)} className="text-sm text-red-500 hover:text-red-700 font-medium">
+          <button onClick={() => setDeleteConfirm(true)} className="text-xs text-red-500 hover:text-red-700 font-semibold uppercase tracking-widest">
             Delete this event
           </button>
         )}
@@ -334,7 +324,7 @@ export default function EventDetail() {
   if (loading) {
     return (
       <div className="p-8 flex justify-center">
-        <div className="animate-spin h-6 w-6 border-2 border-zinc-900 border-t-transparent rounded-full" />
+        <div className="animate-spin h-5 w-5 border-2 border-zinc-900 border-t-transparent rounded-full" />
       </div>
     );
   }
@@ -363,15 +353,8 @@ export default function EventDetail() {
   const outstanding = Math.max(0, event.total_cost - event.captain_share - totalCollected);
   const unassigned = Math.max(0, event.total_cost - event.captain_share - totalOwed);
 
-  const statusColors: Record<EventStatus, string> = {
-    ACTIVE: 'bg-emerald-50 text-emerald-700',
-    COMPLETED: 'bg-blue-50 text-blue-700',
-    ARCHIVED: 'bg-zinc-100 text-zinc-500',
-  };
-
   return (
     <div className="p-8 max-w-3xl">
-
       {logPaymentTarget && (
         <LogPaymentModal
           eventPlayer={logPaymentTarget}
@@ -411,85 +394,76 @@ export default function EventDetail() {
         />
       )}
 
-      <Link to="/events" className="text-sm text-zinc-400 hover:text-zinc-700 flex items-center gap-1 mb-6">
-        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <Link to="/events" className="text-xs text-zinc-400 hover:text-zinc-700 flex items-center gap-1 mb-6 uppercase tracking-widest font-semibold">
+        <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
         </svg>
-        Back to Events
+        Events
       </Link>
 
       <div className="card p-6 mb-6">
         <div className="flex items-start justify-between mb-4">
           <div>
             <div className="flex items-center gap-2 mb-1">
-              <h1 className="text-2xl font-bold text-gray-900">{event.name}</h1>
-              <span className={`text-xs font-medium px-2.5 py-1 rounded-full ${statusColors[event.status]}`}>
-                {event.status}
+              <h1 className="font-display text-2xl font-bold text-zinc-900">{event.name}</h1>
+              <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-sm uppercase tracking-wide ${statusConfig[event.status].classes}`}>
+                {statusConfig[event.status].label}
               </span>
             </div>
-            <p className="text-gray-500">{event.organization}</p>
+            <p className="text-zinc-400 text-sm">{event.organization}</p>
           </div>
 
           <div className="flex items-center gap-2">
-            <span className="text-xs bg-zinc-100 text-zinc-500 px-2 py-0.5 rounded font-medium">Captain</span>
-            <button
-              onClick={() => setShowReminder(true)}
-              className="btn-secondary text-sm"
-            >
-              <svg className="w-4 h-4 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                  d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
-              </svg>
+            <span className="text-[10px] uppercase tracking-widest font-semibold bg-zinc-100 text-zinc-500 px-2 py-1 rounded-sm">Captain</span>
+            <button onClick={() => setShowReminder(true)} className="btn-secondary">
               Reminder
             </button>
-            <Link to={`/events/${eventId}/edit`} className="btn-secondary text-sm">
-              Edit
-            </Link>
+            <Link to={`/events/${eventId}/edit`} className="btn-secondary">Edit</Link>
           </div>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm mb-4">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-5">
           {event.location && (
             <div>
-              <p className="text-gray-400 text-xs mb-0.5">Location</p>
-              <p className="font-medium text-gray-700">{event.location}</p>
+              <p className="label">Location</p>
+              <p className="text-zinc-700 text-xs font-medium">{event.location}</p>
             </div>
           )}
           <div>
-            <p className="text-gray-400 text-xs mb-0.5">Type</p>
-            <p className="font-medium text-gray-700">{event.type === 'LEAGUE' ? 'League' : 'Tournament'}</p>
+            <p className="label">Type</p>
+            <p className="text-zinc-700 text-xs font-medium">{event.type === 'LEAGUE' ? 'League' : 'Tournament'}</p>
           </div>
           {event.days_of_week && (
             <div>
-              <p className="text-gray-400 text-xs mb-0.5">Days</p>
-              <p className="font-medium text-gray-700">{event.days_of_week}</p>
+              <p className="label">Days</p>
+              <p className="text-zinc-700 text-xs font-medium">{event.days_of_week}</p>
             </div>
           )}
           <div>
-            <p className="text-gray-400 text-xs mb-0.5">Start Date</p>
-            <p className="font-medium text-gray-700">
+            <p className="label">Start Date</p>
+            <p className="text-zinc-700 text-xs font-medium">
               {new Date(event.start_date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
             </p>
           </div>
           {event.end_date && (
             <div>
-              <p className="text-gray-400 text-xs mb-0.5">End Date</p>
-              <p className="font-medium text-gray-700">
+              <p className="label">End Date</p>
+              <p className="text-zinc-700 text-xs font-medium">
                 {new Date(event.end_date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
               </p>
             </div>
           )}
         </div>
 
-        <div className="bg-zinc-50 rounded-lg p-4 mb-4 border border-zinc-100">
+        <div className="bg-[#f5f3ee] rounded p-4 mb-4 border border-[#e2e0db]">
           <div className="flex items-center justify-between mb-2">
-            <span className="text-sm font-medium text-zinc-700">Collection from players</span>
-            <div className="flex gap-4 text-sm">
-              <span className="text-emerald-600 font-semibold">${totalCollected.toFixed(2)} collected</span>
+            <span className="text-xs font-medium text-zinc-600">Collection from players</span>
+            <div className="flex gap-4 text-xs">
+              <span className="text-[#2ba572] font-semibold font-display">${totalCollected.toFixed(2)} collected</span>
               {outstanding > 0 && (
-                <span className="text-red-500 font-semibold">${outstanding.toFixed(2)} outstanding</span>
+                <span className="text-red-500 font-semibold font-display">${outstanding.toFixed(2)} outstanding</span>
               )}
-              <span className="text-zinc-400">of ${(event.total_cost - event.captain_share).toFixed(2)}</span>
+              <span className="text-zinc-400 font-display">of ${(event.total_cost - event.captain_share).toFixed(2)}</span>
             </div>
           </div>
           <ProgressBar collected={totalCollected} total={event.total_cost - event.captain_share} showLabel={false} />
@@ -500,62 +474,55 @@ export default function EventDetail() {
                 {' '}· Players owe: <span className="font-medium text-zinc-600">${(event.total_cost - event.captain_share).toFixed(2)}</span>
               </p>
             ) : (
-              <p className="text-[11px] text-zinc-400">No captain share set. All ${event.total_cost.toFixed(2)} split among players.</p>
+              <p className="text-[11px] text-zinc-400">No captain share. All ${event.total_cost.toFixed(2)} split among players.</p>
             )}
             {unassigned > 0.005 && (
-              <p className="text-[11px] text-amber-500">${unassigned.toFixed(2)} unassigned</p>
+              <p className="text-[11px] text-amber-600">${unassigned.toFixed(2)} unassigned</p>
             )}
           </div>
         </div>
 
         <div className="flex items-center gap-2">
-          <span className="text-xs text-gray-500 mr-1">Status:</span>
+          <span className="text-[10px] uppercase tracking-widest text-zinc-400 font-semibold mr-1">Status</span>
           {(['ACTIVE', 'COMPLETED', 'ARCHIVED'] as EventStatus[]).map((s) => (
             <button
               key={s}
               onClick={() => handleStatusChange(s)}
               disabled={event.status === s || statusChanging}
-              className={`text-xs px-2.5 py-1 rounded-full border transition-colors ${
+              className={`text-[10px] px-2.5 py-1 rounded-sm border transition-colors uppercase tracking-wide font-semibold ${
                 event.status === s
-                  ? `${statusColors[s]} border-transparent font-medium`
-                  : 'border-gray-200 text-gray-500 hover:border-gray-400'
+                  ? `${statusConfig[s].classes} border-transparent`
+                  : 'border-[#e2e0db] text-zinc-400 hover:border-zinc-400'
               }`}
             >
-              {s.charAt(0) + s.slice(1).toLowerCase()}
+              {statusConfig[s].label}
             </button>
           ))}
         </div>
       </div>
 
       <div className="card mb-6">
-        <div className="flex items-center justify-between p-5 border-b border-gray-100">
-          <h2 className="font-semibold text-gray-900">
+        <div className="flex items-center justify-between p-5 border-b border-[#e2e0db]">
+          <p className="text-[10px] uppercase tracking-widest text-zinc-500 font-semibold">
             Players ({eventPlayers.length})
-          </h2>
-          <button
-            onClick={() => setShowAddPlayer(true)}
-            className="btn-primary text-sm"
-          >
-            <svg className="w-4 h-4 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
-            </svg>
+          </p>
+          <button onClick={() => setShowAddPlayer(true)} className="btn-primary">
             Add Player
           </button>
         </div>
 
         {eventPlayers.length === 0 ? (
-          <div className="p-8 text-center text-gray-500 text-sm">
+          <div className="p-8 text-center text-zinc-400 text-sm">
             No players added yet.{' '}
             <button
               onClick={() => setShowAddPlayer(true)}
-              className="text-zinc-500 hover:text-zinc-800 font-medium"
+              className="text-zinc-600 hover:text-zinc-900 font-medium"
             >
-              Add players from your roster.
+              Add from your roster.
             </button>
           </div>
         ) : (
-          <div className="divide-y divide-gray-50 px-1 py-1">
+          <div className="divide-y divide-[#e2e0db] px-1 py-1">
             {eventPlayers.map((ep) => (
               <div key={ep.id} className="group">
                 <PlayerRow
@@ -564,12 +531,11 @@ export default function EventDetail() {
                   onRemove={handleRemovePlayer}
                   onEditAmount={setEditAmountTarget}
                 />
-
                 {(ep.payments?.length ?? 0) > 0 && (
                   <div className="px-4 pb-2 -mt-1">
                     <button
                       onClick={() => setHistoryTarget(ep)}
-                      className="text-xs text-zinc-400 hover:text-zinc-700 transition-colors"
+                      className="text-[11px] text-zinc-400 hover:text-zinc-700 transition-colors"
                     >
                       View {ep.payments?.length} payment{ep.payments?.length !== 1 ? 's' : ''}
                     </button>
@@ -581,22 +547,18 @@ export default function EventDetail() {
         )}
       </div>
 
-      <div className="card p-5 border-red-100">
-        <h3 className="text-sm font-semibold text-gray-700 mb-3">Danger Zone</h3>
+      <div className="card p-5">
+        <p className="text-[10px] uppercase tracking-widest text-zinc-400 font-semibold mb-3">Danger Zone</p>
         {deleteConfirm ? (
           <div className="flex items-center gap-3">
-            <span className="text-sm text-gray-600">This will permanently delete the event and all payment history.</span>
-            <button onClick={handleDeleteEvent} className="btn-danger text-sm">
-              Delete
-            </button>
-            <button onClick={() => setDeleteConfirm(false)} className="btn-secondary text-sm">
-              Cancel
-            </button>
+            <span className="text-xs text-zinc-500">This will permanently delete the event and all payment history.</span>
+            <button onClick={handleDeleteEvent} className="btn-danger">Delete</button>
+            <button onClick={() => setDeleteConfirm(false)} className="btn-secondary">Cancel</button>
           </div>
         ) : (
           <button
             onClick={() => setDeleteConfirm(true)}
-            className="text-sm text-red-600 hover:text-red-800 font-medium transition-colors"
+            className="text-xs text-red-500 hover:text-red-700 font-semibold uppercase tracking-widest"
           >
             Delete this event
           </button>

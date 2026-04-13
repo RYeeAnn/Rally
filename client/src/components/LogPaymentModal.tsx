@@ -46,13 +46,14 @@ export default function LogPaymentModal({
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       <div className="absolute inset-0 bg-black/50" onClick={onClose} />
-      <div className="relative bg-white rounded-2xl shadow-xl w-full max-w-md">
-        <div className="flex items-center justify-between p-6 border-b border-gray-200">
-          <h2 className="text-lg font-semibold text-gray-900">
-            Log Payment: {eventPlayer.player?.name}
+      <div className="relative bg-white border border-[#e2e0db] rounded w-full max-w-md">
+        {/* Header */}
+        <div className="flex items-center justify-between p-6 border-b border-[#e2e0db]">
+          <h2 className="font-display font-semibold text-zinc-900">
+            Log Payment — {eventPlayer.player?.name}
           </h2>
-          <button onClick={onClose} className="text-gray-400 hover:text-gray-600">
-            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <button onClick={onClose} className="btn-ghost -mr-2">
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
             </svg>
           </button>
@@ -60,20 +61,20 @@ export default function LogPaymentModal({
 
         <form onSubmit={handleSubmit} className="p-6 space-y-4">
           {error && (
-            <div className="bg-red-50 border border-red-200 text-red-700 text-sm px-3 py-2 rounded-lg">
+            <div className="bg-red-50 border border-red-100 text-red-700 text-sm px-3 py-2 rounded">
               {error}
             </div>
           )}
 
-          <div className="bg-gray-50 rounded-lg p-3 text-sm text-gray-600 flex justify-between">
-            <span>Outstanding balance</span>
-            <span className="font-semibold text-red-600">${remaining.toFixed(2)}</span>
+          <div className="bg-[#f5f3ee] border border-[#e2e0db] rounded p-3 flex justify-between text-sm">
+            <span className="text-zinc-500">Outstanding balance</span>
+            <span className="font-display font-semibold text-red-600">${remaining.toFixed(2)}</span>
           </div>
 
           <div>
             <label className="label">Amount *</label>
             <div className="relative">
-              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm">$</span>
+              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400 text-sm">$</span>
               <input
                 className="input pl-7"
                 type="number"
@@ -119,13 +120,13 @@ export default function LogPaymentModal({
               className="input"
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
-              placeholder="paid at the gym on Monday..."
+              placeholder="paid at the gym on Monday…"
             />
           </div>
 
           <div className="flex gap-3 pt-1">
             <button type="submit" className="btn-primary flex-1" disabled={loading}>
-              {loading ? 'Logging...' : 'Log Payment'}
+              {loading ? 'Logging…' : 'Log Payment'}
             </button>
             <button type="button" onClick={onClose} className="btn-secondary">
               Cancel

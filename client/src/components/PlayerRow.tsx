@@ -13,11 +13,13 @@ export default function PlayerRow({ eventPlayer, onLogPayment, onRemove, onEditA
   const outstanding = Math.max(0, amount_owed - amount_paid);
 
   return (
-    <div className="flex items-center justify-between py-3 px-4 hover:bg-zinc-50/60 rounded-md transition-colors">
+    <div className="flex items-center justify-between py-3 px-4 hover:bg-[#f5f3ee] rounded transition-colors">
       {/* Avatar + info */}
       <div className="flex items-center gap-3 flex-1 min-w-0">
-        <div className="w-7 h-7 rounded-full bg-zinc-100 flex items-center justify-center flex-shrink-0 text-zinc-600 text-xs font-medium">
-          {player?.name.charAt(0).toUpperCase()}
+        <div className="w-7 h-7 rounded bg-[#0e1a13] flex items-center justify-center flex-shrink-0">
+          <span className="text-[#2ba572] font-display font-bold text-xs">
+            {player?.name.charAt(0).toUpperCase()}
+          </span>
         </div>
 
         <div className="min-w-0">

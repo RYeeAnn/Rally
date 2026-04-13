@@ -54,25 +54,25 @@ export default function Layout() {
   }
 
   return (
-    <div className="flex h-screen bg-zinc-50">
-      {/* Sidebar: near-black, intentionally not colorful */}
+    <div className="flex h-screen bg-[#f5f3ee]">
+      {/* Sidebar */}
       <aside className="w-56 bg-[#0e1a13] flex flex-col flex-shrink-0">
         {/* Wordmark */}
-        <div className="px-5 pt-6 pb-5">
-          <span className="text-white font-semibold text-base tracking-tight">Rally</span>
+        <div className="px-5 pt-7 pb-6">
+          <span className="font-display text-white font-bold text-xl tracking-tight">Rally</span>
         </div>
 
         {/* Nav */}
-        <nav className="flex-1 px-2 space-y-0.5">
+        <nav className="flex-1 px-3 space-y-0.5">
           {navItems.map((item) => (
             <NavLink
               key={item.to}
               to={item.to}
               className={({ isActive }) =>
-                `flex items-center gap-2.5 px-3 py-2 rounded-md text-sm transition-colors ${
+                `flex items-center gap-2.5 px-3 py-2 text-xs tracking-wide transition-colors border-l-2 ${
                   isActive
-                    ? 'text-white [&>svg]:text-[#2ba572]'
-                    : 'text-zinc-400 hover:bg-white/5 hover:text-zinc-200'
+                    ? 'text-white border-[#2ba572]'
+                    : 'text-zinc-500 border-transparent hover:text-zinc-300'
                 }`
               }
             >
@@ -83,14 +83,14 @@ export default function Layout() {
         </nav>
 
         {/* User */}
-        <div className="px-2 py-4 border-t border-white/5">
+        <div className="px-3 py-4 border-t border-white/5">
           <div className="px-3 py-2 mb-0.5">
             <p className="text-white text-xs font-medium truncate">{user?.name}</p>
-            <p className="text-zinc-500 text-xs truncate mt-0.5">{user?.email}</p>
+            <p className="text-zinc-600 text-[11px] truncate mt-0.5">{user?.email}</p>
           </div>
           <button
             onClick={handleLogout}
-            className="flex items-center gap-2.5 w-full px-3 py-2 rounded-md text-sm text-zinc-400 hover:bg-white/5 hover:text-zinc-200 transition-colors"
+            className="flex items-center gap-2.5 w-full px-3 py-2 text-xs text-zinc-500 hover:text-zinc-300 transition-colors border-l-2 border-transparent"
           >
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.75}>
               <path strokeLinecap="round" strokeLinejoin="round"

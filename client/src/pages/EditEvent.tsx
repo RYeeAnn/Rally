@@ -94,19 +94,19 @@ export default function EditEvent() {
     <div className="p-8 max-w-2xl">
       <Link
         to={`/events/${eventId}`}
-        className="text-sm text-zinc-400 hover:text-zinc-700 flex items-center gap-1 mb-6"
+        className="text-xs text-zinc-400 hover:text-zinc-700 flex items-center gap-1 mb-6 uppercase tracking-widest font-semibold"
       >
-        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.75}>
+        <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.75}>
           <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
         </svg>
         Back to Event
       </Link>
 
-      <h1 className="text-xl font-semibold text-zinc-900 mb-6">Edit Event</h1>
+      <h1 className="font-display text-2xl font-bold text-zinc-900 mb-6">Edit Event</h1>
 
       <div className="card p-6">
         {error && (
-          <div className="text-sm text-red-600 bg-red-50 border border-red-100 rounded-md px-3 py-2.5 mb-5">
+          <div className="text-sm text-red-600 bg-red-50 border border-red-100 rounded px-3 py-2.5 mb-5">
             {error}
           </div>
         )}
@@ -116,11 +116,11 @@ export default function EditEvent() {
           <div>
             <label className="label">Your role</label>
             <div className="flex gap-3">
-              <div className={`flex-1 py-3 px-4 text-sm rounded-md border ${isCaptain ? 'bg-zinc-900 text-white border-zinc-900' : 'bg-white text-zinc-400 border-zinc-200'}`}>
+              <div className={`flex-1 py-3 px-4 text-sm rounded border ${isCaptain ? 'bg-zinc-900 text-white border-zinc-900' : 'bg-white text-zinc-400 border-zinc-200'}`}>
                 <p className="font-medium">I'm the captain</p>
                 <p className="text-xs mt-0.5 text-zinc-400">I paid the full cost and collect from teammates</p>
               </div>
-              <div className={`flex-1 py-3 px-4 text-sm rounded-md border ${!isCaptain ? 'bg-zinc-900 text-white border-zinc-900' : 'bg-white text-zinc-400 border-zinc-200'}`}>
+              <div className={`flex-1 py-3 px-4 text-sm rounded border ${!isCaptain ? 'bg-zinc-900 text-white border-zinc-900' : 'bg-white text-zinc-400 border-zinc-200'}`}>
                 <p className="font-medium">I'm a player</p>
                 <p className="text-xs mt-0.5 text-zinc-400">I just pay my share to someone else</p>
               </div>
@@ -136,10 +136,10 @@ export default function EditEvent() {
                   key={t}
                   type="button"
                   onClick={() => setType(t)}
-                  className={`flex-1 py-2 text-sm font-medium rounded-md border transition-colors ${
+                  className={`flex-1 py-2 text-sm font-medium rounded border transition-colors ${
                     type === t
                       ? 'bg-zinc-900 text-white border-zinc-900'
-                      : 'bg-white text-zinc-600 border-zinc-200 hover:border-zinc-400'
+                      : 'bg-white text-zinc-600 border-[#e2e0db] hover:border-zinc-400'
                   }`}
                 >
                   {t === 'LEAGUE' ? 'League' : 'Tournament'}
@@ -256,10 +256,10 @@ export default function EditEvent() {
                     key={day}
                     type="button"
                     onClick={() => toggleDay(day)}
-                    className={`px-3 py-1.5 text-xs font-medium rounded-md border transition-colors ${
+                    className={`px-3 py-1.5 text-xs font-medium rounded border transition-colors ${
                       selectedDays.includes(day)
                         ? 'bg-zinc-900 text-white border-zinc-900'
-                        : 'bg-white text-zinc-600 border-zinc-200 hover:border-zinc-400'
+                        : 'bg-white text-zinc-600 border-[#e2e0db] hover:border-zinc-400'
                     }`}
                   >
                     {day.slice(0, 3)}

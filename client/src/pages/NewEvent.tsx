@@ -65,18 +65,18 @@ export default function NewEvent() {
 
   return (
     <div className="p-8 max-w-2xl">
-      <Link to="/events" className="text-sm text-zinc-400 hover:text-zinc-700 flex items-center gap-1 mb-6">
-        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.75}>
+      <Link to="/events" className="text-xs text-zinc-400 hover:text-zinc-700 flex items-center gap-1 mb-6 uppercase tracking-widest font-semibold">
+        <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.75}>
           <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
         </svg>
-        Back to Events
+        Events
       </Link>
 
-      <h1 className="text-xl font-semibold text-zinc-900 mb-6">Create New Event</h1>
+      <h1 className="font-display text-2xl font-bold text-zinc-900 mb-6">Create New Event</h1>
 
       <div className="card p-6">
         {error && (
-          <div className="text-sm text-red-600 bg-red-50 border border-red-100 rounded-md px-3 py-2.5 mb-5">
+          <div className="text-sm text-red-600 bg-red-50 border border-red-100 rounded px-3 py-2.5 mb-5">
             {error}
           </div>
         )}
@@ -92,7 +92,7 @@ export default function NewEvent() {
                 className={`flex-1 py-3 px-4 text-sm rounded-md border transition-colors text-left ${
                   isCaptain
                     ? 'bg-zinc-900 text-white border-zinc-900'
-                    : 'bg-white text-zinc-600 border-zinc-200 hover:border-zinc-400'
+                    : 'bg-white text-zinc-600 border-[#e2e0db] hover:border-zinc-400'
                 }`}
               >
                 <p className="font-medium">I'm the captain</p>
@@ -106,7 +106,7 @@ export default function NewEvent() {
                 className={`flex-1 py-3 px-4 text-sm rounded-md border transition-colors text-left ${
                   !isCaptain
                     ? 'bg-zinc-900 text-white border-zinc-900'
-                    : 'bg-white text-zinc-600 border-zinc-200 hover:border-zinc-400'
+                    : 'bg-white text-zinc-600 border-[#e2e0db] hover:border-zinc-400'
                 }`}
               >
                 <p className="font-medium">I'm a player</p>
@@ -128,7 +128,7 @@ export default function NewEvent() {
                   className={`flex-1 py-2 text-sm font-medium rounded-md border transition-colors ${
                     type === t
                       ? 'bg-zinc-900 text-white border-zinc-900'
-                      : 'bg-white text-zinc-600 border-zinc-200 hover:border-zinc-400'
+                      : 'bg-white text-zinc-600 border-[#e2e0db] hover:border-zinc-400'
                   }`}
                 >
                   {t === 'LEAGUE' ? 'League' : 'Tournament'}
@@ -280,7 +280,7 @@ export default function NewEvent() {
                     className={`px-3 py-1.5 text-xs font-medium rounded-md border transition-colors ${
                       selectedDays.includes(day)
                         ? 'bg-zinc-900 text-white border-zinc-900'
-                        : 'bg-white text-zinc-600 border-zinc-200 hover:border-zinc-400'
+                        : 'bg-white text-zinc-600 border-[#e2e0db] hover:border-zinc-400'
                     }`}
                   >
                     {day.slice(0, 3)}

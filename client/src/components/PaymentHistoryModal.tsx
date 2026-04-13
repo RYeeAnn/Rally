@@ -25,41 +25,42 @@ export default function PaymentHistoryModal({
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       <div className="absolute inset-0 bg-black/50" onClick={onClose} />
-      <div className="relative bg-white rounded-2xl shadow-xl w-full max-w-md">
-        <div className="flex items-center justify-between p-6 border-b border-gray-200">
-          <h2 className="text-lg font-semibold text-gray-900">
-            Payment History: {eventPlayer.player?.name}
+      <div className="relative bg-white border border-[#e2e0db] rounded w-full max-w-md">
+        {/* Header */}
+        <div className="flex items-center justify-between p-6 border-b border-[#e2e0db]">
+          <h2 className="font-display font-semibold text-zinc-900">
+            Payment History — {eventPlayer.player?.name}
           </h2>
-          <button onClick={onClose} className="text-gray-400 hover:text-gray-600">
-            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <button onClick={onClose} className="btn-ghost -mr-2">
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
             </svg>
           </button>
         </div>
 
         <div className="p-4">
-          <div className="bg-gray-50 rounded-lg p-3 mb-4 flex justify-between text-sm">
-            <span className="text-gray-600">Total Paid</span>
-            <span className="font-semibold text-green-600">${eventPlayer.amount_paid.toFixed(2)}</span>
+          <div className="bg-[#f5f3ee] border border-[#e2e0db] rounded p-3 mb-4 flex justify-between text-sm">
+            <span className="text-zinc-500">Total Paid</span>
+            <span className="font-display font-semibold text-[#2ba572]">${eventPlayer.amount_paid.toFixed(2)}</span>
           </div>
 
           {payments.length === 0 ? (
-            <p className="text-center text-gray-500 text-sm py-6">No payments recorded yet.</p>
+            <p className="text-center text-zinc-400 text-sm py-6">No payments recorded yet.</p>
           ) : (
             <div className="space-y-2">
               {payments.map((p) => (
                 <div
                   key={p.id}
-                  className="flex items-center justify-between p-3 rounded-lg border border-gray-100 hover:bg-gray-50"
+                  className="flex items-center justify-between p-3 rounded border border-[#e2e0db] hover:bg-[#f5f3ee] transition-colors"
                 >
                   <div>
-                    <p className="text-sm font-medium text-gray-900">
+                    <p className="text-sm font-medium text-zinc-900">
                       ${p.amount.toFixed(2)}{' '}
-                      <span className="text-gray-400 font-normal">
+                      <span className="text-zinc-400 font-normal">
                         via {p.method.replace('_', '-')}
                       </span>
                     </p>
-                    <p className="text-xs text-gray-500">
+                    <p className="text-xs text-zinc-400">
                       {new Date(p.date).toLocaleDateString('en-US', {
                         month: 'short', day: 'numeric', year: 'numeric',
                       })}
@@ -68,7 +69,7 @@ export default function PaymentHistoryModal({
                   </div>
                   <button
                     onClick={() => handleDelete(p.id)}
-                    className="text-gray-300 hover:text-red-500 transition-colors ml-3"
+                    className="btn-ghost text-zinc-300 hover:text-red-500 ml-3"
                     title="Delete payment"
                   >
                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -82,7 +83,7 @@ export default function PaymentHistoryModal({
           )}
         </div>
 
-        <div className="flex justify-end p-4 border-t border-gray-100">
+        <div className="flex justify-end p-4 border-t border-[#e2e0db]">
           <button onClick={onClose} className="btn-secondary">Close</button>
         </div>
       </div>

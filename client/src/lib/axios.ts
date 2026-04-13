@@ -7,7 +7,6 @@ const api = axios.create({
   },
 });
 
-// Attach JWT from localStorage on every request
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem('rally_token');
   if (token) {
@@ -16,7 +15,6 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
-// Redirect to login on 401
 api.interceptors.response.use(
   (response) => response,
   (error) => {

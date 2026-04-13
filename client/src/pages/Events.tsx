@@ -26,27 +26,27 @@ export default function Events() {
   }, [activeTab]);
 
   return (
-    <div className="p-8">
-      <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-bold text-gray-900">Events</h1>
-        <Link to="/events/new" className="btn-primary">
-          <svg className="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-          </svg>
+    <div className="p-8 max-w-5xl">
+      <div className="flex items-start justify-between mb-8">
+        <div>
+          <p className="text-[10px] uppercase tracking-widest text-zinc-400 mb-1">Your Season</p>
+          <h1 className="font-display text-3xl font-bold text-zinc-900">Events</h1>
+        </div>
+        <Link to="/events/new" className="btn-primary mt-1">
           New Event
         </Link>
       </div>
 
-      {/* Status tabs */}
-      <div className="flex gap-1 bg-gray-100 p-1 rounded-lg w-fit mb-6">
+      {/* Tabs */}
+      <div className="flex gap-6 border-b border-[#e2e0db] mb-6">
         {STATUS_TABS.map((tab) => (
           <button
             key={tab.value}
             onClick={() => setActiveTab(tab.value)}
-            className={`px-4 py-1.5 text-sm font-medium rounded-md transition-colors ${
+            className={`pb-3 text-[11px] font-semibold uppercase tracking-widest transition-colors border-b-2 -mb-px ${
               activeTab === tab.value
-                ? 'bg-white text-gray-900 shadow-sm'
-                : 'text-gray-500 hover:text-gray-700'
+                ? 'text-zinc-900 border-zinc-900'
+                : 'text-zinc-400 border-transparent hover:text-zinc-600'
             }`}
           >
             {tab.label}
@@ -56,23 +56,23 @@ export default function Events() {
 
       {loading ? (
         <div className="flex justify-center py-12">
-          <div className="animate-spin h-6 w-6 border-2 border-zinc-900 border-t-transparent rounded-full" />
+          <div className="animate-spin h-5 w-5 border-2 border-zinc-900 border-t-transparent rounded-full" />
         </div>
       ) : events.length === 0 ? (
         <div className="card p-12 text-center">
-          <p className="text-gray-500 mb-4">
+          <p className="text-zinc-400 text-sm">
             {activeTab === 'ACTIVE'
               ? 'No active events.'
               : `No ${activeTab.toLowerCase()} events.`}
           </p>
           {activeTab === 'ACTIVE' && (
-            <Link to="/events/new" className="btn-primary inline-flex">
+            <Link to="/events/new" className="btn-primary inline-flex mt-4">
               Create an event
             </Link>
           )}
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3">
           {events.map((event) => (
             <EventCard key={event.id} event={event} />
           ))}

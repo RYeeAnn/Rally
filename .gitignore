@@ -11,6 +11,9 @@ dist/
 client/dist/
 server/dist/
 
+# Claude Code agents (local only)
+.claude/
+
 # Logs
 *.log
 npm-debug.log*

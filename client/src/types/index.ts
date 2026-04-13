@@ -76,7 +76,6 @@ export interface DashboardActiveEvent {
   total_collected: number;
   total_outstanding: number;
   player_count: number;
-  // non-captain fields
   personal_amount_owed?: number;
   personal_amount_paid?: number;
   personal_payment_status?: PaymentStatus;

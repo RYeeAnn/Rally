@@ -33,29 +33,29 @@ export default function Register() {
   }
 
   return (
-    <div className="min-h-screen bg-white flex">
-      {/* Left: branding panel */}
+    <div className="min-h-screen flex">
+      {/* Left */}
       <div className="hidden lg:flex lg:w-1/2 bg-[#0e1a13] flex-col justify-between p-12">
-        <span className="text-white font-semibold text-lg tracking-tight">Rally</span>
+        <span className="font-display text-white font-bold text-xl tracking-tight">Rally</span>
         <div>
           <p className="text-zinc-300 text-lg leading-relaxed font-light max-w-sm">
             Track leagues, split costs, and chase down payments. All in one place.
           </p>
-          <p className="text-zinc-600 text-sm mt-4">Built for recreational sports captains</p>
+          <p className="text-zinc-600 text-xs mt-4 uppercase tracking-widest font-semibold">Built for recreational sports captains</p>
         </div>
       </div>
 
-      {/* Right: form */}
-      <div className="flex-1 flex items-center justify-center px-6 py-12">
+      {/* Right */}
+      <div className="flex-1 flex items-center justify-center px-6 py-12 bg-[#f5f3ee]">
         <div className="w-full max-w-sm">
           <div className="mb-8">
-            <p className="text-xs font-medium text-zinc-400 uppercase tracking-wider mb-2 lg:hidden">Rally</p>
-            <h1 className="text-2xl font-semibold text-zinc-900">Create account</h1>
-            <p className="text-zinc-500 text-sm mt-1">Get started for free.</p>
+            <p className="text-[10px] font-semibold text-zinc-400 uppercase tracking-widest mb-3 lg:hidden">Rally</p>
+            <h1 className="font-display text-3xl font-bold text-zinc-900">Create account</h1>
+            <p className="text-zinc-400 text-sm mt-1">Get started for free.</p>
           </div>
 
           {error && (
-            <div className="text-sm text-red-600 bg-red-50 border border-red-100 rounded-md px-3 py-2.5 mb-5">
+            <div className="text-sm text-red-600 bg-red-50 border border-red-100 rounded px-3 py-2.5 mb-5">
               {error}
             </div>
           )}
@@ -109,7 +109,7 @@ export default function Register() {
 
           <p className="text-center text-sm text-zinc-400 mt-6">
             Already have an account?{' '}
-            <Link to="/login" className="text-zinc-900 font-medium hover:underline">
+            <Link to="/login" className="text-zinc-900 font-semibold hover:underline">
               Sign in
             </Link>
           </p>

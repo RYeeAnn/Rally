@@ -12,16 +12,17 @@ export default {
           'system-ui',
           'sans-serif',
         ],
+        display: ['Space Grotesk', 'system-ui', 'sans-serif'],
       },
       colors: {
-        // App-specific aliases for consistency
         surface: '#ffffff',
-        'surface-raised': '#fafafa',
-        border: '#e4e4e7',
-        'border-strong': '#d4d4d8',
+        'surface-warm': '#f5f3ee',
+        border: '#e2e0db',
+        'border-strong': '#c8c5bc',
+        accent: '#2ba572',
       },
       boxShadow: {
-        card: '0 1px 3px 0 rgba(0,0,0,0.04), 0 1px 2px -1px rgba(0,0,0,0.04)',
+        card: '0 1px 2px 0 rgba(0,0,0,0.04)',
         dropdown: '0 4px 16px 0 rgba(0,0,0,0.08)',
       },
     },

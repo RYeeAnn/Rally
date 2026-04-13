@@ -39,7 +39,7 @@ export default function ReminderModal({ event, eventPlayers, onClose }: Props) {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={onClose} />
-      <div className="relative bg-white rounded-xl border border-zinc-200 shadow-dropdown w-full max-w-lg">
+      <div className="relative bg-white border border-[#e2e0db] rounded w-full max-w-lg">
         {/* Header */}
         <div className="flex items-center justify-between px-6 py-4 border-b border-zinc-100">
           <h2 className="text-sm font-semibold text-zinc-900">Payment Reminder</h2>
@@ -57,7 +57,7 @@ export default function ReminderModal({ event, eventPlayers, onClose }: Props) {
               : `${outstanding.length} player${outstanding.length !== 1 ? 's' : ''} outstanding. Copy and paste into WhatsApp, Instagram, or iMessage.`}
           </p>
 
-          <div className="bg-zinc-50 rounded-lg p-4 border border-zinc-100">
+          <div className="bg-[#f5f3ee] rounded p-4 border border-[#e2e0db]">
             <pre className="text-sm text-zinc-800 whitespace-pre-wrap font-sans leading-relaxed">
               {message}
             </pre>

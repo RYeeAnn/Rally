@@ -9,7 +9,6 @@ export default function Roster() {
   const [search, setSearch] = useState('');
   const [showForm, setShowForm] = useState(false);
 
-  // Form state
   const [formName, setFormName] = useState('');
   const [formEmail, setFormEmail] = useState('');
   const [formPhone, setFormPhone] = useState('');
@@ -73,19 +72,17 @@ export default function Roster() {
   );
 
   return (
-    <div className="p-8">
-      <div className="flex items-center justify-between mb-6">
+    <div className="p-8 max-w-3xl">
+      <div className="flex items-start justify-between mb-8">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Roster</h1>
-          <p className="text-gray-500 text-sm mt-0.5">{players.length} players in your network</p>
+          <p className="text-[10px] uppercase tracking-widest text-zinc-400 mb-1">Your Network</p>
+          <h1 className="font-display text-3xl font-bold text-zinc-900">Roster</h1>
+          <p className="text-zinc-400 text-sm mt-1">{players.length} players</p>
         </div>
         <button
           onClick={() => { setShowForm(true); resetForm(); }}
-          className="btn-primary"
+          className="btn-primary mt-1"
         >
-          <svg className="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-          </svg>
           Add Player
         </button>
       </div>
@@ -95,7 +92,7 @@ export default function Roster() {
         <input
           type="text"
           className="input max-w-sm"
-          placeholder="Search by name, email, or @handle..."
+          placeholder="Search by name, email, or @handle…"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
@@ -103,10 +100,10 @@ export default function Roster() {
 
       {/* Add Player form */}
       {showForm && (
-        <div className="card p-6 mb-6">
-          <h3 className="font-semibold text-gray-900 mb-4">Add New Player</h3>
+        <div className="card p-6 mb-5">
+          <p className="text-[10px] uppercase tracking-widest text-zinc-500 font-semibold mb-4">New Player</p>
           {formError && (
-            <div className="bg-red-50 border border-red-200 text-red-700 text-sm px-4 py-2 rounded-lg mb-4">
+            <div className="bg-red-50 border border-red-200 text-red-700 text-sm px-4 py-2 rounded mb-4">
               {formError}
             </div>
           )}
@@ -125,7 +122,7 @@ export default function Roster() {
                 <input className="input" type="tel" value={formPhone} onChange={(e) => setFormPhone(e.target.value)} />
               </div>
               <div>
-                <label className="label">Instagram Handle</label>
+                <label className="label">Instagram</label>
                 <input className="input" value={formInstagram} onChange={(e) => setFormInstagram(e.target.value)} placeholder="@handle" />
               </div>
             </div>
@@ -136,12 +133,12 @@ export default function Roster() {
                 rows={2}
                 value={formNotes}
                 onChange={(e) => setFormNotes(e.target.value)}
-                placeholder="e.g. prefers e-transfer, usually pays late..."
+                placeholder="e.g. prefers e-transfer, usually pays late…"
               />
             </div>
             <div className="flex gap-3">
               <button type="submit" className="btn-primary" disabled={formLoading}>
-                {formLoading ? 'Adding...' : 'Add Player'}
+                {formLoading ? 'Adding…' : 'Add Player'}
               </button>
               <button
                 type="button"
@@ -158,15 +155,15 @@ export default function Roster() {
       {/* Player list */}
       {loading ? (
         <div className="flex justify-center py-12">
-          <div className="animate-spin h-8 w-8 border-4 border-indigo-600 border-t-transparent rounded-full" />
+          <div className="animate-spin h-5 w-5 border-2 border-zinc-900 border-t-transparent rounded-full" />
         </div>
       ) : filtered.length === 0 ? (
         <div className="card p-12 text-center">
           {search ? (
-            <p className="text-gray-500">No players match "{search}".</p>
+            <p className="text-zinc-400 text-sm">No players match "{search}".</p>
           ) : (
             <>
-              <p className="text-gray-500 mb-4">Your roster is empty.</p>
+              <p className="text-zinc-400 text-sm mb-4">Your roster is empty.</p>
               <button onClick={() => setShowForm(true)} className="btn-primary">
                 Add your first player
               </button>
@@ -174,33 +171,33 @@ export default function Roster() {
           )}
         </div>
       ) : (
-        <div className="card divide-y divide-gray-100">
+        <div className="card divide-y divide-[#e2e0db]">
           {filtered.map((player) => (
             <Link
               key={player.id}
               to={`/roster/${player.id}`}
-              className="flex items-center gap-4 px-5 py-4 hover:bg-gray-50 transition-colors"
+              className="flex items-center gap-4 px-5 py-4 hover:bg-[#f5f3ee] transition-colors"
             >
-              <div className="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center flex-shrink-0">
-                <span className="text-indigo-700 font-semibold">
+              <div className="w-9 h-9 rounded bg-[#0e1a13] flex items-center justify-center flex-shrink-0">
+                <span className="text-[#2ba572] font-display font-bold text-sm">
                   {player.name.charAt(0).toUpperCase()}
                 </span>
               </div>
               <div className="flex-1 min-w-0">
-                <p className="font-medium text-gray-900">{player.name}</p>
+                <p className="font-medium text-zinc-900 text-sm">{player.name}</p>
                 <div className="flex gap-3 mt-0.5">
                   {player.email && (
-                    <span className="text-xs text-gray-500 truncate">{player.email}</span>
+                    <span className="text-xs text-zinc-400 truncate">{player.email}</span>
                   )}
                   {player.instagram_handle && (
-                    <span className="text-xs text-indigo-500">{player.instagram_handle}</span>
+                    <span className="text-xs text-zinc-500">{player.instagram_handle}</span>
                   )}
                   {player.phone && (
-                    <span className="text-xs text-gray-500">{player.phone}</span>
+                    <span className="text-xs text-zinc-400">{player.phone}</span>
                   )}
                 </div>
               </div>
-              <svg className="w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg className="w-3.5 h-3.5 text-zinc-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
               </svg>
             </Link>

@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Event, PaymentStatus } from '../types';
+import { Event } from '../types';
 import ProgressBar from './ProgressBar';
 
 interface Props {
@@ -8,48 +8,33 @@ interface Props {
   };
 }
 
-const PAYMENT_STATUS_STYLES: Record<PaymentStatus, string> = {
-  PAID: 'text-green-600 bg-green-50',
-  PARTIAL: 'text-amber-500 bg-amber-50',
-  UNPAID: 'text-red-500 bg-red-50',
-};
-
-const PAYMENT_STATUS_LABEL: Record<PaymentStatus, string> = {
-  PAID: 'Paid',
-  PARTIAL: 'Partial',
-  UNPAID: 'Unpaid',
-};
-
 export default function EventCard({ event }: Props) {
   const players = event.event_players ?? [];
 
   return (
     <Link
       to={`/events/${event.id}`}
-      className="card p-5 hover:border-zinc-300 transition-colors block group"
+      className="block bg-white border border-[#e2e0db] rounded hover:border-zinc-400 transition-colors group"
     >
-      {/* Header */}
-      <div className="flex items-start justify-between mb-3">
-        <div className="min-w-0 flex-1 mr-3">
-          <h3 className="font-medium text-zinc-900 text-sm group-hover:text-zinc-600 transition-colors">
+      <div className="p-5">
+        {/* Header */}
+        <div className="mb-3">
+          <h3 className="font-display font-semibold text-zinc-900 text-sm group-hover:text-zinc-600 transition-colors leading-snug">
             {event.name}
           </h3>
-          <p className="text-xs text-zinc-400 mt-0.5">{event.organization}</p>
+          <p className="text-[11px] text-zinc-400 mt-0.5">{event.organization}</p>
         </div>
-        <span className="text-[11px] font-medium px-1.5 py-0.5 rounded bg-zinc-100 text-zinc-500 flex-shrink-0">
-          {event.type === 'LEAGUE' ? 'League' : 'Tournament'}
-        </span>
+
+        {event.days_of_week && (
+          <p className="text-[10px] uppercase tracking-wide text-zinc-400 mb-3">{event.days_of_week}</p>
+        )}
+
+        {event.is_captain ? (
+          <CaptainView event={event} players={players} />
+        ) : (
+          <PlayerView event={event} />
+        )}
       </div>
-
-      {event.days_of_week && (
-        <p className="text-xs text-zinc-400 mb-3">{event.days_of_week}</p>
-      )}
-
-      {event.is_captain ? (
-        <CaptainView event={event} players={players} />
-      ) : (
-        <PlayerView event={event} />
-      )}
     </Link>
   );
 }
@@ -69,9 +54,13 @@ function CaptainView({
 
   return (
     <>
-      <div className="flex items-center justify-between text-xs text-zinc-400 mb-3">
-        <span>{players.length} {players.length === 1 ? 'player' : 'players'}</span>
-        <span className="font-medium text-zinc-600">${event.total_cost.toFixed(2)}</span>
+      <div className="flex items-center justify-between mb-3">
+        <span className="text-[11px] text-zinc-400">
+          {players.length} {players.length === 1 ? 'player' : 'players'}
+        </span>
+        <span className="font-display text-sm font-semibold text-zinc-900">
+          ${event.total_cost.toFixed(2)}
+        </span>
       </div>
 
       <ProgressBar collected={collected} total={totalOwed} />
@@ -79,12 +68,12 @@ function CaptainView({
       {(unpaidCount > 0 || partialCount > 0) && (
         <div className="mt-3 flex gap-1.5">
           {unpaidCount > 0 && (
-            <span className="text-[11px] text-red-500 bg-red-50 px-1.5 py-0.5 rounded">
+            <span className="text-[10px] text-red-500 bg-red-50 px-1.5 py-0.5 rounded-sm">
               {unpaidCount} unpaid
             </span>
           )}
           {partialCount > 0 && (
-            <span className="text-[11px] text-amber-500 bg-amber-50 px-1.5 py-0.5 rounded">
+            <span className="text-[10px] text-amber-600 bg-amber-50 px-1.5 py-0.5 rounded-sm">
               {partialCount} partial
             </span>
           )}
@@ -99,18 +88,30 @@ function PlayerView({ event }: { event: Props['event'] }) {
   const paid = event.personal_amount_paid ?? 0;
   const status = event.personal_payment_status;
 
+  const statusStyles = {
+    PAID: 'text-[#2ba572] bg-emerald-50',
+    PARTIAL: 'text-amber-600 bg-amber-50',
+    UNPAID: 'text-red-500 bg-red-50',
+  };
+
+  const statusLabel = {
+    PAID: 'Paid',
+    PARTIAL: 'Partial',
+    UNPAID: 'Unpaid',
+  };
+
   return (
     <>
-      <div className="flex items-center justify-between text-xs text-zinc-400 mb-3">
-        <span>Your share</span>
-        <span className="font-medium text-zinc-600">${owed.toFixed(2)}</span>
+      <div className="flex items-center justify-between mb-3">
+        <span className="text-[11px] text-zinc-400">Your share</span>
+        <span className="font-display text-sm font-semibold text-zinc-900">${owed.toFixed(2)}</span>
       </div>
 
       <ProgressBar collected={paid} total={owed} label="paid" />
 
       <div className="mt-3">
-        <span className={`text-[11px] px-1.5 py-0.5 rounded ${PAYMENT_STATUS_STYLES[status]}`}>
-          {PAYMENT_STATUS_LABEL[status]}
+        <span className={`text-[10px] px-1.5 py-0.5 rounded-sm font-medium ${statusStyles[status]}`}>
+          {statusLabel[status]}
         </span>
       </div>
     </>
