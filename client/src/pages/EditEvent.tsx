@@ -84,14 +84,14 @@ export default function EditEvent() {
 
   if (loading) {
     return (
-      <div className="p-8 flex justify-center">
+      <div className="p-6 flex justify-center">
         <div className="animate-spin h-6 w-6 border-2 border-zinc-900 border-t-transparent rounded-full" />
       </div>
     );
   }
 
   return (
-    <div className="p-8 max-w-2xl">
+    <div className="p-4 sm:p-6 lg:p-8 max-w-2xl">
       <Link
         to={`/events/${eventId}`}
         className="text-xs text-zinc-400 hover:text-zinc-700 flex items-center gap-1 mb-6 uppercase tracking-widest font-semibold"
@@ -104,7 +104,7 @@ export default function EditEvent() {
 
       <h1 className="font-display text-2xl font-bold text-zinc-900 mb-6">Edit Event</h1>
 
-      <div className="card p-6">
+      <div className="card p-4 sm:p-6">
         {error && (
           <div className="text-sm text-red-600 bg-red-50 border border-red-100 rounded px-3 py-2.5 mb-5">
             {error}
@@ -113,14 +113,15 @@ export default function EditEvent() {
 
         <form onSubmit={handleSubmit} className="space-y-5">
 
+          {/* Role display (read-only) */}
           <div>
             <label className="label">Your role</label>
-            <div className="flex gap-3">
-              <div className={`flex-1 py-3 px-4 text-sm rounded border ${isCaptain ? 'bg-zinc-900 text-white border-zinc-900' : 'bg-white text-zinc-400 border-zinc-200'}`}>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div className={`py-3 px-4 text-sm rounded border ${isCaptain ? 'bg-zinc-900 text-white border-zinc-900' : 'bg-white text-zinc-400 border-zinc-200'}`}>
                 <p className="font-medium">I'm the captain</p>
                 <p className="text-xs mt-0.5 text-zinc-400">I paid the full cost and collect from teammates</p>
               </div>
-              <div className={`flex-1 py-3 px-4 text-sm rounded border ${!isCaptain ? 'bg-zinc-900 text-white border-zinc-900' : 'bg-white text-zinc-400 border-zinc-200'}`}>
+              <div className={`py-3 px-4 text-sm rounded border ${!isCaptain ? 'bg-zinc-900 text-white border-zinc-900' : 'bg-white text-zinc-400 border-zinc-200'}`}>
                 <p className="font-medium">I'm a player</p>
                 <p className="text-xs mt-0.5 text-zinc-400">I just pay my share to someone else</p>
               </div>
@@ -128,6 +129,7 @@ export default function EditEvent() {
             <p className="text-[11px] text-zinc-400 mt-1.5">Role can't be changed after creation.</p>
           </div>
 
+          {/* Event type */}
           <div>
             <label className="label">Event Type</label>
             <div className="flex gap-3">
@@ -163,6 +165,7 @@ export default function EditEvent() {
             <input className="input" value={location} onChange={(e) => setLocation(e.target.value)} />
           </div>
 
+          {/* Cost fields */}
           {isCaptain ? (
             <div className="space-y-4">
               <div>
@@ -201,7 +204,7 @@ export default function EditEvent() {
               </div>
             </div>
           ) : (
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <label className="label">Full Team Cost</label>
                 <p className="text-xs text-zinc-400 mb-1.5">What the captain paid total (optional)</p>
@@ -236,7 +239,8 @@ export default function EditEvent() {
             </div>
           )}
 
-          <div className="grid grid-cols-2 gap-4">
+          {/* Dates */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className="label">Start Date *</label>
               <input className="input" type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} required />
@@ -247,6 +251,7 @@ export default function EditEvent() {
             </div>
           </div>
 
+          {/* Days of week */}
           {type === 'LEAGUE' && (
             <div>
               <label className="label">Days of the Week</label>
@@ -269,7 +274,7 @@ export default function EditEvent() {
             </div>
           )}
 
-          <div className="flex gap-3 pt-2">
+          <div className="flex flex-wrap gap-3 pt-2">
             <button type="submit" className="btn-primary" disabled={saving}>
               {saving ? 'Saving...' : 'Save Changes'}
             </button>

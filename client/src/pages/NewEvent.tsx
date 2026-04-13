@@ -64,7 +64,7 @@ export default function NewEvent() {
   }
 
   return (
-    <div className="p-8 max-w-2xl">
+    <div className="p-4 sm:p-6 lg:p-8 max-w-2xl">
       <Link to="/events" className="text-xs text-zinc-400 hover:text-zinc-700 flex items-center gap-1 mb-6 uppercase tracking-widest font-semibold">
         <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.75}>
           <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
@@ -74,7 +74,7 @@ export default function NewEvent() {
 
       <h1 className="font-display text-2xl font-bold text-zinc-900 mb-6">Create New Event</h1>
 
-      <div className="card p-6">
+      <div className="card p-4 sm:p-6">
         {error && (
           <div className="text-sm text-red-600 bg-red-50 border border-red-100 rounded px-3 py-2.5 mb-5">
             {error}
@@ -83,13 +83,14 @@ export default function NewEvent() {
 
         <form onSubmit={handleSubmit} className="space-y-5">
 
+          {/* Role selector */}
           <div>
             <label className="label">Your role</label>
-            <div className="flex gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <button
                 type="button"
                 onClick={() => setIsCaptain(true)}
-                className={`flex-1 py-3 px-4 text-sm rounded-md border transition-colors text-left ${
+                className={`py-3 px-4 text-sm rounded-md border transition-colors text-left ${
                   isCaptain
                     ? 'bg-zinc-900 text-white border-zinc-900'
                     : 'bg-white text-zinc-600 border-[#e2e0db] hover:border-zinc-400'
@@ -103,7 +104,7 @@ export default function NewEvent() {
               <button
                 type="button"
                 onClick={() => setIsCaptain(false)}
-                className={`flex-1 py-3 px-4 text-sm rounded-md border transition-colors text-left ${
+                className={`py-3 px-4 text-sm rounded-md border transition-colors text-left ${
                   !isCaptain
                     ? 'bg-zinc-900 text-white border-zinc-900'
                     : 'bg-white text-zinc-600 border-[#e2e0db] hover:border-zinc-400'
@@ -117,6 +118,7 @@ export default function NewEvent() {
             </div>
           </div>
 
+          {/* Event type */}
           <div>
             <label className="label">Event Type</label>
             <div className="flex gap-3">
@@ -169,6 +171,7 @@ export default function NewEvent() {
             />
           </div>
 
+          {/* Cost fields */}
           {isCaptain ? (
             <div className="space-y-4">
               <div>
@@ -209,7 +212,7 @@ export default function NewEvent() {
               </div>
             </div>
           ) : (
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <label className="label">Full Team Cost</label>
                 <p className="text-xs text-zinc-400 mb-1.5">What the captain paid total (optional)</p>
@@ -246,7 +249,8 @@ export default function NewEvent() {
             </div>
           )}
 
-          <div className="grid grid-cols-2 gap-4">
+          {/* Dates */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className="label">Start Date *</label>
               <input
@@ -268,6 +272,7 @@ export default function NewEvent() {
             </div>
           </div>
 
+          {/* Days of week (league only) */}
           {type === 'LEAGUE' && (
             <div>
               <label className="label">Days of the Week</label>
@@ -290,7 +295,7 @@ export default function NewEvent() {
             </div>
           )}
 
-          <div className="flex gap-3 pt-2">
+          <div className="flex flex-wrap gap-3 pt-2">
             <button type="submit" className="btn-primary" disabled={loading}>
               {loading ? 'Creating...' : 'Create Event'}
             </button>

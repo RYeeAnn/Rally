@@ -44,22 +44,22 @@ export default function LogPaymentModal({
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+    <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4">
       <div className="absolute inset-0 bg-black/50" onClick={onClose} />
-      <div className="relative bg-white border border-[#e2e0db] rounded w-full max-w-md">
+      <div className="relative bg-white border border-[#e2e0db] w-full sm:max-w-md flex flex-col max-h-[90vh] rounded-t-xl sm:rounded-xl">
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-[#e2e0db]">
-          <h2 className="font-display font-semibold text-zinc-900">
+        <div className="flex items-center justify-between p-4 sm:p-6 border-b border-[#e2e0db] flex-shrink-0">
+          <h2 className="font-display font-semibold text-zinc-900 text-sm sm:text-base truncate pr-2">
             Log Payment — {eventPlayer.player?.name}
           </h2>
-          <button onClick={onClose} className="btn-ghost -mr-2">
+          <button onClick={onClose} className="btn-ghost -mr-2 flex-shrink-0">
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
             </svg>
           </button>
         </div>
 
-        <form onSubmit={handleSubmit} className="p-6 space-y-4">
+        <form onSubmit={handleSubmit} className="p-4 sm:p-6 space-y-4 overflow-y-auto flex-1">
           {error && (
             <div className="bg-red-50 border border-red-100 text-red-700 text-sm px-3 py-2 rounded">
               {error}

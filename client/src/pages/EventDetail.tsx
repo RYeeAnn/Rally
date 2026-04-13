@@ -43,7 +43,6 @@ function NonCaptainEventDetail({
   const owed = event.personal_amount_owed ?? 0;
   const paid = event.personal_amount_paid;
   const outstanding = Math.max(0, owed - paid);
-  const pct = owed > 0 ? Math.min(100, (paid / owed) * 100) : 0;
 
   async function handleLogPayment(e: FormEvent) {
     e.preventDefault();
@@ -80,7 +79,7 @@ function NonCaptainEventDetail({
   }
 
   return (
-    <div className="p-8 max-w-2xl">
+    <div className="p-4 sm:p-6 lg:p-8 max-w-2xl">
       <Link to="/events" className="text-xs text-zinc-400 hover:text-zinc-700 flex items-center gap-1 mb-6 uppercase tracking-widest font-semibold">
         <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.75}>
           <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
@@ -88,24 +87,25 @@ function NonCaptainEventDetail({
         Events
       </Link>
 
-      <div className="card p-6 mb-4">
-        <div className="flex items-start justify-between mb-4">
-          <div>
-            <div className="flex items-center gap-2 mb-1">
-              <h1 className="font-display text-xl font-bold text-zinc-900">{event.name}</h1>
-              <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-sm uppercase tracking-wide ${statusConfig[event.status].classes}`}>
+      <div className="card p-4 sm:p-6 mb-4">
+        {/* Header */}
+        <div className="flex items-start justify-between mb-4 gap-3">
+          <div className="min-w-0">
+            <div className="flex flex-wrap items-center gap-2 mb-1">
+              <h1 className="font-display text-lg sm:text-xl font-bold text-zinc-900">{event.name}</h1>
+              <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-sm uppercase tracking-wide flex-shrink-0 ${statusConfig[event.status].classes}`}>
                 {statusConfig[event.status].label}
               </span>
             </div>
-            <p className="text-zinc-400 text-sm">{event.organization}</p>
+            <p className="text-zinc-400 text-sm truncate">{event.organization}</p>
           </div>
-          <div className="flex items-center gap-2">
-            <span className="text-[10px] uppercase tracking-widest font-semibold bg-zinc-100 text-zinc-500 px-2 py-1 rounded-sm">Player</span>
+          <div className="flex items-center gap-2 flex-shrink-0">
+            <span className="text-[10px] uppercase tracking-widest font-semibold bg-zinc-100 text-zinc-500 px-2 py-1 rounded-sm hidden sm:inline">Player</span>
             <Link to={`/events/${event.id}/edit`} className="btn-secondary">Edit</Link>
           </div>
         </div>
 
-        <div className="grid grid-cols-3 gap-4 text-sm mb-5">
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4 text-sm mb-5">
           {event.location && (
             <div>
               <p className="label">Location</p>
@@ -156,7 +156,7 @@ function NonCaptainEventDetail({
           )}
 
           {outstanding > 0 && !showPaymentForm && (
-            <div className="flex gap-2 mt-3">
+            <div className="flex flex-wrap gap-2 mt-3">
               <button onClick={handleMarkPaid} className="btn-primary">
                 Mark fully paid
               </button>
@@ -222,7 +222,8 @@ function NonCaptainEventDetail({
           )}
         </div>
 
-        <div className="flex items-center gap-2 mt-4">
+        {/* Status */}
+        <div className="flex flex-wrap items-center gap-2 mt-4">
           <span className="text-[10px] uppercase tracking-widest text-zinc-400 font-semibold mr-1">Status</span>
           {(['ACTIVE', 'COMPLETED', 'ARCHIVED'] as EventStatus[]).map((s) => (
             <button
@@ -241,10 +242,10 @@ function NonCaptainEventDetail({
         </div>
       </div>
 
-      <div className="card p-5">
+      <div className="card p-4 sm:p-5">
         <p className="text-[10px] uppercase tracking-widest text-zinc-400 font-semibold mb-3">Danger Zone</p>
         {deleteConfirm ? (
-          <div className="flex items-center gap-3">
+          <div className="flex flex-wrap items-center gap-3">
             <span className="text-xs text-zinc-500">Permanently delete this event?</span>
             <button onClick={onDelete} className="btn-danger">Delete</button>
             <button onClick={() => setDeleteConfirm(false)} className="btn-secondary">Cancel</button>
@@ -323,14 +324,14 @@ export default function EventDetail() {
 
   if (loading) {
     return (
-      <div className="p-8 flex justify-center">
+      <div className="p-6 flex justify-center">
         <div className="animate-spin h-5 w-5 border-2 border-zinc-900 border-t-transparent rounded-full" />
       </div>
     );
   }
 
   if (error || !event) {
-    return <div className="p-8 text-sm text-red-600">{error || 'Event not found'}</div>;
+    return <div className="p-6 text-sm text-red-600">{error || 'Event not found'}</div>;
   }
 
   if (!event.is_captain) {
@@ -354,7 +355,7 @@ export default function EventDetail() {
   const unassigned = Math.max(0, event.total_cost - event.captain_share - totalOwed);
 
   return (
-    <div className="p-8 max-w-3xl">
+    <div className="p-4 sm:p-6 lg:p-8 max-w-3xl">
       {logPaymentTarget && (
         <LogPaymentModal
           eventPlayer={logPaymentTarget}
@@ -401,20 +402,23 @@ export default function EventDetail() {
         Events
       </Link>
 
-      <div className="card p-6 mb-6">
-        <div className="flex items-start justify-between mb-4">
-          <div>
-            <div className="flex items-center gap-2 mb-1">
-              <h1 className="font-display text-2xl font-bold text-zinc-900">{event.name}</h1>
-              <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-sm uppercase tracking-wide ${statusConfig[event.status].classes}`}>
+      {/* Event info card */}
+      <div className="card p-4 sm:p-6 mb-6">
+        {/* Header row */}
+        <div className="flex items-start justify-between mb-4 gap-3">
+          <div className="min-w-0">
+            <div className="flex flex-wrap items-center gap-2 mb-1">
+              <h1 className="font-display text-xl sm:text-2xl font-bold text-zinc-900">{event.name}</h1>
+              <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-sm uppercase tracking-wide flex-shrink-0 ${statusConfig[event.status].classes}`}>
                 {statusConfig[event.status].label}
               </span>
             </div>
-            <p className="text-zinc-400 text-sm">{event.organization}</p>
+            <p className="text-zinc-400 text-sm truncate">{event.organization}</p>
           </div>
 
-          <div className="flex items-center gap-2">
-            <span className="text-[10px] uppercase tracking-widest font-semibold bg-zinc-100 text-zinc-500 px-2 py-1 rounded-sm">Captain</span>
+          {/* Action buttons — stack to wrap on small screens */}
+          <div className="flex flex-wrap items-center gap-2 flex-shrink-0 justify-end">
+            <span className="text-[10px] uppercase tracking-widest font-semibold bg-zinc-100 text-zinc-500 px-2 py-1 rounded-sm hidden sm:inline">Captain</span>
             <button onClick={() => setShowReminder(true)} className="btn-secondary">
               Reminder
             </button>
@@ -422,7 +426,8 @@ export default function EventDetail() {
           </div>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-5">
+        {/* Event meta grid */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-4 mb-5">
           {event.location && (
             <div>
               <p className="label">Location</p>
@@ -455,10 +460,11 @@ export default function EventDetail() {
           )}
         </div>
 
+        {/* Collection summary */}
         <div className="bg-[#f5f3ee] rounded p-4 mb-4 border border-[#e2e0db]">
-          <div className="flex items-center justify-between mb-2">
+          <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
             <span className="text-xs font-medium text-zinc-600">Collection from players</span>
-            <div className="flex gap-4 text-xs">
+            <div className="flex flex-wrap gap-3 sm:gap-4 text-xs">
               <span className="text-[#2ba572] font-semibold font-display">${totalCollected.toFixed(2)} collected</span>
               {outstanding > 0 && (
                 <span className="text-red-500 font-semibold font-display">${outstanding.toFixed(2)} outstanding</span>
@@ -467,7 +473,7 @@ export default function EventDetail() {
             </div>
           </div>
           <ProgressBar collected={totalCollected} total={event.total_cost - event.captain_share} showLabel={false} />
-          <div className="flex items-center justify-between mt-2">
+          <div className="flex flex-wrap items-center justify-between gap-2 mt-2">
             {event.captain_share > 0 ? (
               <p className="text-[11px] text-zinc-400">
                 Your share: <span className="font-medium text-zinc-600">${event.captain_share.toFixed(2)}</span>
@@ -482,7 +488,8 @@ export default function EventDetail() {
           </div>
         </div>
 
-        <div className="flex items-center gap-2">
+        {/* Status buttons */}
+        <div className="flex flex-wrap items-center gap-2">
           <span className="text-[10px] uppercase tracking-widest text-zinc-400 font-semibold mr-1">Status</span>
           {(['ACTIVE', 'COMPLETED', 'ARCHIVED'] as EventStatus[]).map((s) => (
             <button
@@ -501,8 +508,9 @@ export default function EventDetail() {
         </div>
       </div>
 
+      {/* Players card */}
       <div className="card mb-6">
-        <div className="flex items-center justify-between p-5 border-b border-[#e2e0db]">
+        <div className="flex items-center justify-between p-4 sm:p-5 border-b border-[#e2e0db]">
           <p className="text-[10px] uppercase tracking-widest text-zinc-500 font-semibold">
             Players ({eventPlayers.length})
           </p>
@@ -547,10 +555,11 @@ export default function EventDetail() {
         )}
       </div>
 
-      <div className="card p-5">
+      {/* Danger zone */}
+      <div className="card p-4 sm:p-5">
         <p className="text-[10px] uppercase tracking-widest text-zinc-400 font-semibold mb-3">Danger Zone</p>
         {deleteConfirm ? (
-          <div className="flex items-center gap-3">
+          <div className="flex flex-wrap items-center gap-3">
             <span className="text-xs text-zinc-500">This will permanently delete the event and all payment history.</span>
             <button onClick={handleDeleteEvent} className="btn-danger">Delete</button>
             <button onClick={() => setDeleteConfirm(false)} className="btn-secondary">Cancel</button>

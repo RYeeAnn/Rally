@@ -34,23 +34,23 @@ export default function Register() {
 
   return (
     <div className="min-h-screen flex">
-      {/* Left */}
-      <div className="hidden lg:flex lg:w-1/2 bg-[#0e1a13] flex-col justify-between p-12">
+      {/* Left panel — visible from lg up */}
+      <div className="hidden lg:flex lg:w-5/12 xl:w-1/2 bg-[#0e1a13] flex-col justify-between p-10 xl:p-12 flex-shrink-0">
         <span className="font-display text-white font-bold text-xl tracking-tight">Rally</span>
         <div>
-          <p className="text-zinc-300 text-lg leading-relaxed font-light max-w-sm">
+          <p className="text-zinc-300 text-base xl:text-lg leading-relaxed font-light max-w-sm">
             Track leagues, split costs, and chase down payments. All in one place.
           </p>
           <p className="text-zinc-600 text-xs mt-4 uppercase tracking-widest font-semibold">Built for recreational sports captains</p>
         </div>
       </div>
 
-      {/* Right */}
-      <div className="flex-1 flex items-center justify-center px-6 py-12 bg-[#f5f3ee]">
+      {/* Right panel */}
+      <div className="flex-1 flex items-center justify-center px-5 sm:px-8 py-10 sm:py-16 bg-[#f5f3ee] min-w-0">
         <div className="w-full max-w-sm">
           <div className="mb-8">
             <p className="text-[10px] font-semibold text-zinc-400 uppercase tracking-widest mb-3 lg:hidden">Rally</p>
-            <h1 className="font-display text-3xl font-bold text-zinc-900">Create account</h1>
+            <h1 className="font-display text-2xl sm:text-3xl font-bold text-zinc-900">Create account</h1>
             <p className="text-zinc-400 text-sm mt-1">Get started for free.</p>
           </div>
 

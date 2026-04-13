@@ -70,20 +70,20 @@ export default function PlayerProfile() {
 
   if (loading) {
     return (
-      <div className="p-8 flex justify-center">
+      <div className="p-6 flex justify-center">
         <div className="animate-spin h-5 w-5 border-2 border-zinc-900 border-t-transparent rounded-full" />
       </div>
     );
   }
 
   if (!player) {
-    return <div className="p-8 text-zinc-400 text-sm">Player not found.</div>;
+    return <div className="p-6 text-zinc-400 text-sm">Player not found.</div>;
   }
 
   const eventPlayers = player.event_players ?? [];
 
   return (
-    <div className="p-8 max-w-3xl">
+    <div className="p-4 sm:p-6 lg:p-8 max-w-3xl">
       {/* Back */}
       <Link to="/roster" className="text-xs text-zinc-400 hover:text-zinc-700 flex items-center gap-1 mb-6 uppercase tracking-widest font-semibold">
         <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -93,7 +93,7 @@ export default function PlayerProfile() {
       </Link>
 
       {/* Header card */}
-      <div className="card p-6 mb-6">
+      <div className="card p-4 sm:p-6 mb-6">
         {editing ? (
           <>
             <p className="text-[10px] uppercase tracking-widest text-zinc-500 font-semibold mb-4">Edit Player</p>
@@ -103,7 +103,7 @@ export default function PlayerProfile() {
               </div>
             )}
             <form onSubmit={handleSave}>
-              <div className="grid grid-cols-2 gap-4 mb-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
                 <div>
                   <label className="label">Name *</label>
                   <input className="input" value={formName} onChange={(e) => setFormName(e.target.value)} required />
@@ -125,7 +125,7 @@ export default function PlayerProfile() {
                 <label className="label">Notes</label>
                 <textarea className="input resize-none" rows={2} value={formNotes} onChange={(e) => setFormNotes(e.target.value)} />
               </div>
-              <div className="flex gap-3">
+              <div className="flex flex-wrap gap-3">
                 <button type="submit" className="btn-primary" disabled={formLoading}>
                   {formLoading ? 'Saving…' : 'Save Changes'}
                 </button>
@@ -136,17 +136,17 @@ export default function PlayerProfile() {
             </form>
           </>
         ) : (
-          <div className="flex items-start justify-between">
+          <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
             <div className="flex items-start gap-4">
-              <div className="w-14 h-14 rounded bg-[#0e1a13] flex items-center justify-center flex-shrink-0">
-                <span className="text-[#2ba572] font-display font-bold text-2xl">
+              <div className="w-12 h-12 sm:w-14 sm:h-14 rounded bg-[#0e1a13] flex items-center justify-center flex-shrink-0">
+                <span className="text-[#2ba572] font-display font-bold text-xl sm:text-2xl">
                   {player.name.charAt(0).toUpperCase()}
                 </span>
               </div>
-              <div>
-                <h1 className="font-display text-xl font-bold text-zinc-900">{player.name}</h1>
+              <div className="min-w-0">
+                <h1 className="font-display text-lg sm:text-xl font-bold text-zinc-900">{player.name}</h1>
                 <div className="space-y-0.5 mt-1.5">
-                  {player.email && <p className="text-sm text-zinc-500">{player.email}</p>}
+                  {player.email && <p className="text-sm text-zinc-500 break-all">{player.email}</p>}
                   {player.phone && <p className="text-sm text-zinc-500">{player.phone}</p>}
                   {player.instagram_handle && (
                     <p className="text-sm text-zinc-600 font-medium">{player.instagram_handle}</p>
@@ -157,7 +157,7 @@ export default function PlayerProfile() {
                 </div>
               </div>
             </div>
-            <div className="flex gap-2">
+            <div className="flex items-center gap-2 flex-shrink-0 self-start sm:self-auto">
               <button onClick={() => setEditing(true)} className="btn-secondary">
                 Edit
               </button>
@@ -198,9 +198,9 @@ export default function PlayerProfile() {
             const payments = ep.payments ?? [];
             const outstanding = Math.max(0, ep.amount_owed - ep.amount_paid);
             return (
-              <div key={ep.id} className="card p-5">
-                <div className="flex items-start justify-between mb-3">
-                  <div>
+              <div key={ep.id} className="card p-4 sm:p-5">
+                <div className="flex items-start justify-between mb-3 gap-3">
+                  <div className="min-w-0">
                     <Link
                       to={`/events/${ep.event_id}`}
                       className="font-display font-semibold text-zinc-900 hover:text-zinc-600 transition-colors text-sm"
@@ -209,10 +209,12 @@ export default function PlayerProfile() {
                     </Link>
                     <p className="text-xs text-zinc-400 mt-0.5">{ep.event?.organization}</p>
                   </div>
-                  <PaymentStatusBadge status={ep.payment_status} />
+                  <div className="flex-shrink-0">
+                    <PaymentStatusBadge status={ep.payment_status} />
+                  </div>
                 </div>
 
-                <div className="flex gap-5 text-xs text-zinc-500 mb-3">
+                <div className="flex flex-wrap gap-4 sm:gap-5 text-xs text-zinc-500 mb-3">
                   <span>Owed <strong className="text-zinc-800">${ep.amount_owed.toFixed(2)}</strong></span>
                   <span>Paid <strong className="text-[#2ba572]">${ep.amount_paid.toFixed(2)}</strong></span>
                   {outstanding > 0 && (

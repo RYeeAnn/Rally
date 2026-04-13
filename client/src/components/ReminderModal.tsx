@@ -37,11 +37,11 @@ export default function ReminderModal({ event, eventPlayers, onClose }: Props) {
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+    <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4">
       <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={onClose} />
-      <div className="relative bg-white border border-[#e2e0db] rounded w-full max-w-lg">
+      <div className="relative bg-white border border-[#e2e0db] w-full sm:max-w-lg flex flex-col max-h-[90vh] rounded-t-xl sm:rounded-xl">
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-zinc-100">
+        <div className="flex items-center justify-between px-4 sm:px-6 py-4 border-b border-zinc-100 flex-shrink-0">
           <h2 className="text-sm font-semibold text-zinc-900">Payment Reminder</h2>
           <button onClick={onClose} className="btn-ghost -mr-2">
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.75}>
@@ -50,21 +50,21 @@ export default function ReminderModal({ event, eventPlayers, onClose }: Props) {
           </button>
         </div>
 
-        <div className="px-6 py-5">
+        <div className="px-4 sm:px-6 py-4 sm:py-5 overflow-y-auto flex-1">
           <p className="text-xs text-zinc-400 mb-3">
             {outstanding.length === 0
               ? 'Everyone is paid up.'
               : `${outstanding.length} player${outstanding.length !== 1 ? 's' : ''} outstanding. Copy and paste into WhatsApp, Instagram, or iMessage.`}
           </p>
 
-          <div className="bg-[#f5f3ee] rounded p-4 border border-[#e2e0db]">
+          <div className="bg-[#f5f3ee] rounded p-3 sm:p-4 border border-[#e2e0db]">
             <pre className="text-sm text-zinc-800 whitespace-pre-wrap font-sans leading-relaxed">
               {message}
             </pre>
           </div>
         </div>
 
-        <div className="flex items-center justify-end gap-2 px-6 pb-5">
+        <div className="flex items-center justify-end gap-2 px-4 sm:px-6 pb-4 sm:pb-5 flex-shrink-0 border-t border-zinc-100 pt-4">
           <button onClick={onClose} className="btn-secondary">
             Close
           </button>

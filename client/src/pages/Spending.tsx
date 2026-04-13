@@ -81,61 +81,62 @@ export default function Spending() {
 
   if (loading) {
     return (
-      <div className="p-8 flex justify-center">
+      <div className="p-6 flex justify-center">
         <div className="animate-spin h-5 w-5 border-2 border-zinc-900 border-t-transparent rounded-full" />
       </div>
     );
   }
 
   return (
-    <div className="p-8 max-w-5xl">
-      {/* Stats */}
-      <div className="mb-10 pb-8 border-b border-[#e2e0db]">
+    <div className="p-4 sm:p-6 lg:p-8 max-w-5xl">
+      {/* Stats header */}
+      <div className="mb-7 sm:mb-10 pb-6 sm:pb-8 border-b border-[#e2e0db]">
         <p className="text-[10px] uppercase tracking-widest text-zinc-400 mb-1">{year} Season</p>
-        <p className="font-display text-5xl font-bold text-zinc-900 mb-1">
+        <p className="font-display text-4xl sm:text-5xl font-bold text-zinc-900 mb-1">
           ${totalSpent.toFixed(2)}
         </p>
         <p className="text-xs text-zinc-400">total volleyball spend</p>
 
-        <div className="flex gap-10 mt-7">
+        <div className="flex flex-wrap gap-6 sm:gap-10 mt-5 sm:mt-7">
           <div>
-            <p className="font-display text-2xl font-semibold text-zinc-900">{leagueCount}</p>
+            <p className="font-display text-xl sm:text-2xl font-semibold text-zinc-900">{leagueCount}</p>
             <p className="text-[10px] uppercase tracking-widest text-zinc-400 mt-0.5">Leagues</p>
           </div>
           <div>
-            <p className="font-display text-2xl font-semibold text-zinc-900">{tournamentCount}</p>
+            <p className="font-display text-xl sm:text-2xl font-semibold text-zinc-900">{tournamentCount}</p>
             <p className="text-[10px] uppercase tracking-widest text-zinc-400 mt-0.5">Tournaments</p>
           </div>
           <div>
-            <p className="font-display text-2xl font-semibold text-zinc-900">${avgCost.toFixed(2)}</p>
+            <p className="font-display text-xl sm:text-2xl font-semibold text-zinc-900">${avgCost.toFixed(2)}</p>
             <p className="text-[10px] uppercase tracking-widest text-zinc-400 mt-0.5">Avg / Event</p>
           </div>
         </div>
       </div>
 
       {thisYearEvents.length === 0 ? (
-        <div className="card p-12 text-center">
+        <div className="card p-10 sm:p-12 text-center">
           <p className="text-zinc-400 text-sm">No events in {year} yet.</p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Monthly chart */}
-          <div className="lg:col-span-2 card p-6">
-            <p className="text-[10px] uppercase tracking-widest text-zinc-500 font-semibold mb-5">Monthly Breakdown</p>
-            <ResponsiveContainer width="100%" height={220}>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
+          {/* Monthly chart — full width on mobile, 2/3 on lg */}
+          <div className="lg:col-span-2 card p-4 sm:p-6">
+            <p className="text-[10px] uppercase tracking-widest text-zinc-500 font-semibold mb-4 sm:mb-5">Monthly Breakdown</p>
+            <ResponsiveContainer width="100%" height={200}>
               <BarChart data={monthlyData} barCategoryGap="35%">
                 <CartesianGrid vertical={false} stroke="#e2e0db" />
                 <XAxis
                   dataKey="month"
-                  tick={{ fontSize: 11, fill: '#a1a1aa', fontFamily: 'DM Sans' }}
+                  tick={{ fontSize: 10, fill: '#a1a1aa', fontFamily: 'DM Sans' }}
                   axisLine={false}
                   tickLine={false}
                 />
                 <YAxis
-                  tick={{ fontSize: 11, fill: '#a1a1aa', fontFamily: 'DM Sans' }}
+                  tick={{ fontSize: 10, fill: '#a1a1aa', fontFamily: 'DM Sans' }}
                   axisLine={false}
                   tickLine={false}
                   tickFormatter={(v: number) => `$${v}`}
+                  width={40}
                 />
                 <Tooltip content={<CustomTooltip />} cursor={{ fill: '#f5f3ee' }} />
                 <Bar dataKey="amount" radius={[2, 2, 0, 0]}>
@@ -151,8 +152,8 @@ export default function Spending() {
           </div>
 
           {/* By organization */}
-          <div className="card p-6">
-            <p className="text-[10px] uppercase tracking-widest text-zinc-500 font-semibold mb-5">By Organization</p>
+          <div className="card p-4 sm:p-6">
+            <p className="text-[10px] uppercase tracking-widest text-zinc-500 font-semibold mb-4 sm:mb-5">By Organization</p>
             {orgData.length === 0 ? (
               <p className="text-zinc-400 text-sm">No data yet.</p>
             ) : (
@@ -180,21 +181,21 @@ export default function Spending() {
 
           {/* Event list */}
           <div className="lg:col-span-3 card">
-            <div className="p-5 border-b border-[#e2e0db]">
+            <div className="p-4 sm:p-5 border-b border-[#e2e0db]">
               <p className="text-[10px] uppercase tracking-widest text-zinc-500 font-semibold">All Events This Year</p>
             </div>
             <div className="divide-y divide-[#e2e0db]">
               {thisYearEvents.map((e) => (
-                <div key={e.id} className="flex items-center justify-between px-5 py-3.5">
-                  <div>
-                    <p className="text-sm font-medium text-zinc-900">{e.name}</p>
+                <div key={e.id} className="flex items-center justify-between px-4 sm:px-5 py-3.5 gap-3">
+                  <div className="min-w-0">
+                    <p className="text-sm font-medium text-zinc-900 truncate">{e.name}</p>
                     <p className="text-[11px] text-zinc-400 mt-0.5">
                       {e.organization} ·{' '}
                       {new Date(e.start_date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
                     </p>
                   </div>
-                  <div className="flex items-center gap-3">
-                    <span className={`text-[10px] px-1.5 py-0.5 rounded-sm font-semibold uppercase tracking-wide ${
+                  <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
+                    <span className={`text-[10px] px-1.5 py-0.5 rounded-sm font-semibold uppercase tracking-wide hidden sm:inline ${
                       e.type === 'LEAGUE'
                         ? 'bg-emerald-50 text-[#2ba572]'
                         : 'bg-zinc-100 text-zinc-600'

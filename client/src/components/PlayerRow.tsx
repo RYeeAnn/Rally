@@ -13,9 +13,9 @@ export default function PlayerRow({ eventPlayer, onLogPayment, onRemove, onEditA
   const outstanding = Math.max(0, amount_owed - amount_paid);
 
   return (
-    <div className="flex items-center justify-between py-3 px-4 hover:bg-[#f5f3ee] rounded transition-colors">
+    <div className="flex items-center justify-between py-3 px-3 sm:px-4 hover:bg-[#f5f3ee] rounded transition-colors">
       {/* Avatar + info */}
-      <div className="flex items-center gap-3 flex-1 min-w-0">
+      <div className="flex items-center gap-2.5 sm:gap-3 flex-1 min-w-0">
         <div className="w-7 h-7 rounded bg-[#0e1a13] flex items-center justify-center flex-shrink-0">
           <span className="text-[#2ba572] font-display font-bold text-xs">
             {player?.name.charAt(0).toUpperCase()}
@@ -34,13 +34,13 @@ export default function PlayerRow({ eventPlayer, onLogPayment, onRemove, onEditA
       </div>
 
       {/* Actions */}
-      <div className="flex items-center gap-1 ml-3">
+      <div className="flex items-center gap-0.5 sm:gap-1 ml-2 flex-shrink-0">
         <PaymentStatusBadge status={payment_status} size="sm" />
 
         {payment_status !== 'PAID' && (
           <button
             onClick={() => onLogPayment(eventPlayer)}
-            className="btn-ghost text-xs ml-1"
+            className="btn-ghost text-xs ml-0.5 sm:ml-1"
           >
             Log
           </button>

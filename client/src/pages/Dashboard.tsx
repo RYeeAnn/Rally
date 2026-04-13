@@ -34,14 +34,14 @@ export default function Dashboard() {
 
   if (loading) {
     return (
-      <div className="p-8 flex items-center justify-center min-h-64">
+      <div className="p-6 flex items-center justify-center min-h-64">
         <div className="animate-spin h-5 w-5 border-2 border-zinc-900 border-t-transparent rounded-full" />
       </div>
     );
   }
 
   if (error) {
-    return <div className="p-8 text-sm text-red-600">{error}</div>;
+    return <div className="p-6 text-sm text-red-600">{error}</div>;
   }
 
   const today = todayDayName();
@@ -50,37 +50,37 @@ export default function Dashboard() {
   ) ?? [];
 
   return (
-    <div className="p-8 max-w-5xl">
+    <div className="p-4 sm:p-6 lg:p-8 max-w-5xl">
       {/* Page header */}
-      <div className="mb-10 flex items-start justify-between">
+      <div className="mb-7 sm:mb-10 flex items-start justify-between gap-4">
         <div>
           <p className="text-[10px] uppercase tracking-widest text-zinc-400 mb-1">
             {new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}
           </p>
-          <h1 className="font-display text-3xl font-bold text-zinc-900">Dashboard</h1>
+          <h1 className="font-display text-2xl sm:text-3xl font-bold text-zinc-900">Dashboard</h1>
         </div>
-        <Link to="/events/new" className="btn-primary mt-1">
+        <Link to="/events/new" className="btn-primary mt-1 flex-shrink-0">
           New Event
         </Link>
       </div>
 
       {/* Stats */}
-      <div className="mb-10 pb-8 border-b border-[#e2e0db]">
+      <div className="mb-7 sm:mb-10 pb-6 sm:pb-8 border-b border-[#e2e0db]">
         <p className="text-[10px] uppercase tracking-widest text-zinc-400 mb-1">Outstanding</p>
-        <p className="font-display text-5xl font-bold text-zinc-900 mb-1">
+        <p className="font-display text-4xl sm:text-5xl font-bold text-zinc-900 mb-1">
           ${(summary?.total_owed ?? 0).toFixed(2)}
         </p>
         <p className="text-xs text-zinc-400">owed to you from active events</p>
 
-        <div className="flex gap-10 mt-7">
+        <div className="flex flex-wrap gap-6 sm:gap-10 mt-5 sm:mt-7">
           <div>
-            <p className="font-display text-2xl font-semibold text-zinc-900">
+            <p className="font-display text-xl sm:text-2xl font-semibold text-zinc-900">
               {summary?.active_events_count ?? 0}
             </p>
             <p className="text-[10px] uppercase tracking-widest text-zinc-400 mt-0.5">Active Events</p>
           </div>
           <div>
-            <p className="font-display text-2xl font-semibold text-zinc-900">
+            <p className="font-display text-xl sm:text-2xl font-semibold text-zinc-900">
               ${(summary?.collected_this_month ?? 0).toFixed(2)}
             </p>
             <p className="text-[10px] uppercase tracking-widest text-zinc-400 mt-0.5">
@@ -88,7 +88,7 @@ export default function Dashboard() {
             </p>
           </div>
           <div>
-            <p className="font-display text-2xl font-semibold text-zinc-900">
+            <p className="font-display text-xl sm:text-2xl font-semibold text-zinc-900">
               ${(summary?.spent_this_year ?? 0).toFixed(2)}
             </p>
             <p className="text-[10px] uppercase tracking-widest text-zinc-400 mt-0.5">
@@ -98,7 +98,7 @@ export default function Dashboard() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 sm:gap-8">
         {/* Active Events Feed */}
         <div className="lg:col-span-2">
           <div className="flex items-center justify-between mb-4">
@@ -109,7 +109,7 @@ export default function Dashboard() {
           </div>
 
           {(summary?.active_events.length ?? 0) === 0 ? (
-            <div className="card p-10 text-center">
+            <div className="card p-8 sm:p-10 text-center">
               <p className="text-zinc-400 text-sm">No active events.</p>
               <Link to="/events/new" className="btn-primary mt-4 inline-flex">
                 Create your first event
@@ -125,15 +125,15 @@ export default function Dashboard() {
                   to={`/events/${event.id}`}
                   className="block bg-white border border-[#e2e0db] rounded hover:border-zinc-400 transition-colors group"
                 >
-                  <div className="px-5 py-4">
-                    <div className="flex items-start justify-between mb-2">
-                      <div>
-                        <h3 className="font-display text-sm font-semibold text-zinc-900 group-hover:text-zinc-600 transition-colors">
+                  <div className="px-4 sm:px-5 py-4">
+                    <div className="flex items-start justify-between mb-2 gap-3">
+                      <div className="min-w-0">
+                        <h3 className="font-display text-sm font-semibold text-zinc-900 group-hover:text-zinc-600 transition-colors truncate">
                           {event.name}
                         </h3>
-                        <p className="text-[11px] text-zinc-400 mt-0.5">{event.organization}</p>
+                        <p className="text-[11px] text-zinc-400 mt-0.5 truncate">{event.organization}</p>
                       </div>
-                      <div className="text-right flex-shrink-0 ml-4">
+                      <div className="text-right flex-shrink-0">
                         {event.is_captain ? (
                           <>
                             <p className="font-display text-sm font-semibold text-zinc-900">
@@ -196,9 +196,9 @@ export default function Dashboard() {
                     className="flex items-center gap-2.5 p-2 rounded hover:bg-[#f5f3ee] transition-colors"
                   >
                     <div className="w-1 h-6 rounded-full bg-[#2ba572] flex-shrink-0" />
-                    <div>
-                      <p className="text-xs font-semibold text-zinc-900">{e.name}</p>
-                      <p className="text-[11px] text-zinc-400">{e.organization}</p>
+                    <div className="min-w-0">
+                      <p className="text-xs font-semibold text-zinc-900 truncate">{e.name}</p>
+                      <p className="text-[11px] text-zinc-400 truncate">{e.organization}</p>
                     </div>
                   </Link>
                 ))}
