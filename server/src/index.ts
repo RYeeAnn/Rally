@@ -1,6 +1,7 @@
 import 'dotenv/config';
 import express from 'express';
 import cors from 'cors';
+import rateLimit from 'express-rate-limit';
 
 import authRouter from './routes/auth';
 import playersRouter from './routes/players';
@@ -20,8 +21,17 @@ app.use(cors({
 }));
 app.use(express.json());
 
+// Rate limiting on auth endpoints
+const authLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 20,
+  message: { error: 'Too many attempts, please try again later' },
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
 // Routes
-app.use('/api/auth', authRouter);
+app.use('/api/auth', authLimiter, authRouter);
 app.use('/api/players', playersRouter);
 app.use('/api/events', eventsRouter);
 app.use('/api/events/:id/players', eventPlayersRouter);
