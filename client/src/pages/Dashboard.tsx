@@ -50,7 +50,7 @@ export default function Dashboard() {
   ) ?? [];
 
   return (
-    <div className="p-4 sm:p-6 lg:p-8 max-w-5xl">
+    <div className="p-4 sm:p-6 lg:p-8 max-w-5xl mx-auto">
       {/* Page header */}
       <div className="mb-7 sm:mb-10 flex items-start justify-between gap-4">
         <div>

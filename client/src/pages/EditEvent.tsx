@@ -91,7 +91,7 @@ export default function EditEvent() {
   }
 
   return (
-    <div className="p-4 sm:p-6 lg:p-8 max-w-2xl">
+    <div className="p-4 sm:p-6 lg:p-8 max-w-2xl mx-auto">
       <Link
         to={`/events/${eventId}`}
         className="text-xs text-zinc-400 hover:text-zinc-700 flex items-center gap-1 mb-6 uppercase tracking-widest font-semibold"
