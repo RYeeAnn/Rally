@@ -13,10 +13,26 @@ router.get('/summary', async (req: AuthRequest, res: Response): Promise<void> =>
     const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
     const startOfYear = new Date(now.getFullYear(), 0, 1);
 
-    const activeEvents = await prisma.event.findMany({
-      where: { user_id: userId, status: 'ACTIVE' },
-      include: { event_players: true },
-    });
+    const [activeEvents, paymentsThisMonth, allEventsThisYear] = await Promise.all([
+      prisma.event.findMany({
+        where: { user_id: userId, status: 'ACTIVE' },
+        include: { event_players: true },
+      }),
+      prisma.payment.aggregate({
+        _sum: { amount: true },
+        where: {
+          date: { gte: startOfMonth },
+          event_player: { event: { user_id: userId } },
+        },
+      }),
+      prisma.event.findMany({
+        where: {
+          user_id: userId,
+          start_date: { gte: startOfYear },
+          status: { not: 'ARCHIVED' },
+        },
+      }),
+    ]);
 
     let total_owed = 0;
     for (const event of activeEvents) {
@@ -26,22 +42,6 @@ router.get('/summary', async (req: AuthRequest, res: Response): Promise<void> =>
         if (outstanding > 0) total_owed += outstanding;
       }
     }
-
-    const paymentsThisMonth = await prisma.payment.aggregate({
-      _sum: { amount: true },
-      where: {
-        date: { gte: startOfMonth },
-        event_player: { event: { user_id: userId } },
-      },
-    });
-
-    const allEventsThisYear = await prisma.event.findMany({
-      where: {
-        user_id: userId,
-        start_date: { gte: startOfYear },
-        status: { not: 'ARCHIVED' },
-      },
-    });
 
     let spent_this_year = 0;
     for (const e of allEventsThisYear) {
