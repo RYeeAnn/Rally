@@ -26,7 +26,7 @@ export default function Events() {
   }, [activeTab]);
 
   return (
-    <div className="p-4 sm:p-6 lg:p-8 max-w-5xl mx-auto">
+    <div className="p-4 sm:p-6 lg:p-8">
       <div className="flex items-start justify-between mb-6 sm:mb-8 gap-4">
         <div>
           <p className="text-[10px] uppercase tracking-widest text-zinc-400 mb-1">Your Season</p>

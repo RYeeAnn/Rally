@@ -88,7 +88,7 @@ export default function Spending() {
   }
 
   return (
-    <div className="p-4 sm:p-6 lg:p-8 max-w-5xl mx-auto">
+    <div className="p-4 sm:p-6 lg:p-8">
       {/* Stats header */}
       <div className="mb-7 sm:mb-10 pb-6 sm:pb-8 border-b border-[#e2e0db]">
         <p className="text-[10px] uppercase tracking-widest text-zinc-400 mb-1">{year} Season</p>
